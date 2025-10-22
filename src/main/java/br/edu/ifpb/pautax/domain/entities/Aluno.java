@@ -1,20 +1,16 @@
 package br.edu.ifpb.pautax.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 
 @Entity
 @Data
-public class Aluno {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nome;
-    private String fone;
-    private String matricula;
-    private String login;
-    private String senha;
+@EqualsAndHashCode(callSuper = true)
+public class Aluno extends Usuario{
 
     @OneToMany(mappedBy = "interessado")
     private List<Processo> processos;

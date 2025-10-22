@@ -1,21 +1,17 @@
 package br.edu.ifpb.pautax.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Entity
 @Data
-public class Professor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nome;
-    private String fone;
-    private String matricula;
-    private String login;
-    private String senha;
+@EqualsAndHashCode(callSuper = true)
+public class Professor extends Usuario{
     private boolean coordenador;
 
     @ManyToMany(mappedBy = "membros")
