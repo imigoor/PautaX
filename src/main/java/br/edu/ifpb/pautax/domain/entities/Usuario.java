@@ -18,9 +18,6 @@ public class Usuario {
     private String nome;
     private String fone;
 
-    @Column(nullable = false)
-    private String matricula;
-
     @Column(unique = true, nullable = false)
     private String login;
 

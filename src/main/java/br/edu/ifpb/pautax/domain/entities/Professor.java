@@ -1,5 +1,6 @@
 package br.edu.ifpb.pautax.domain.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
@@ -13,6 +14,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Professor extends Usuario{
     private boolean coordenador;
+
+    @Column(nullable = false)
+    private String matricula;
 
     @ManyToMany(mappedBy = "membros")
     private List<Colegiado> colegiados;
