@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CadastrarAssuntosProcessosUseCase implements ICadastrarAssuntosProcessosUseCase {
+public class SalvarAssuntosProcessosUseCase implements ISalvarAssuntosProcessosUseCase {
     public final AssuntoRepository assuntoRepository;
 
     @Override

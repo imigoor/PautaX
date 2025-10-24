@@ -2,6 +2,6 @@ package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.
 
 import br.edu.ifpb.pautax.domain.entities.Assunto;
 
-public interface ICadastrarAssuntosProcessosUseCase {
+public interface ISalvarAssuntosProcessosUseCase {
     public String execute(Assunto assunto);
 }

@@ -39,6 +39,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             redirectURL = "/home-aluno";
         } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESSOR"))) {
             redirectURL = "/home-professor";
+        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))
+        {
+            redirectURL = "/admin/home-admin";
         }
 
         response.sendRedirect(redirectURL);

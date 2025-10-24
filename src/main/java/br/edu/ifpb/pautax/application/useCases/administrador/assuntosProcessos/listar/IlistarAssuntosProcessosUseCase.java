@@ -1,9 +1,6 @@
-package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcesso;
+package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.listar;
 
-import br.edu.ifpb.pautax.domain.entities.Assunto;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 public interface IlistarAssuntosProcessosUseCase {
     public ModelAndView execute();
