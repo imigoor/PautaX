@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Gerenciar Assuntos</title>
+</head>
+<body>
+<h1>Gerenciar Assuntos de Processos</h1>
+
+<h3>Novo Assunto</h3>
+<form th:action="@{/admin/assuntos/salvar}" th:object="${assunto}" method="post">
+
+  <input type="hidden" th:field="*{id}" />
+
+  <div>
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}" placeholder="Ex: Defesa de TCC" required />
+  </div>
+  <div>
+    <button type="submit">Salvar</button>
+
+    <a th:href="@{/admin/assuntos}">Cancelar Edição</a>
+  </div>
+</form>
+
+<hr />
+
+<h3>Assuntos Cadastrados</h3>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${listaDeAssuntos}">
+    <td th:text="${item.id}">1</td>
+    <td th:text="${item.nome}">Trancamento de Matrícula</td>
+    <td>
+      <a th:href="@{/admin/assuntos/editar/{id}(id=${item.id})}">
+        Editar
+      </a>
+
+      <a th:href="@{/admin/assuntos/deletar/{id}(id=${item.id})}"
+         onclick="return confirm('Tem certeza que deseja excluir?');">
+        Excluir
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<br/>
+<a th:href="@{/admin/home-admin}">Voltar ao Painel</a>
+
+</body>
+</html>

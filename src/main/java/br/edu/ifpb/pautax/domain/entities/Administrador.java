@@ -13,7 +13,7 @@ public class Administrador extends Usuario {
 
     public Administrador() {
         Set<String> roles = new HashSet<>();
-        roles.add("ADMIN");
+        roles.add("ROLE_ADMIN");
         this.setRole(roles);
     }
 
