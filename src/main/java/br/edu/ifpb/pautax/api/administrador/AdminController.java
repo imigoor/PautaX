@@ -8,6 +8,7 @@ import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor()
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     public final IlistarAssuntosProcessosUseCase listarAssuntosProcessosUseCase;
     public final ISalvarAssuntosProcessosUseCase salvarAssuntosProcessosUseCase;
