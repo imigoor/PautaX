@@ -1,10 +1,8 @@
 package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.deletar;
 
-import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.infrastructure.repositories.AssuntoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 @Service
 @RequiredArgsConstructor

@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gerenciar Alunos</title>
+</head>
+<body>
+
+<h1>Gerenciar Alunos</h1>
+
+<h3>Novo Aluno</h3>
+<form th:action="@{/admin/alunos/salvar}" th:object="${aluno}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}" placeholder="Digite o nome completo" required />
+    </div>
+
+    <div>
+        <label>Telefone:</label>
+        <input type="text" th:field="*{fone}" placeholder="(83) 99999-9999" />
+    </div>
+
+    <div>
+        <label>Login:</label>
+        <input type="text" th:field="*{login}" placeholder="ex: joao@ifpb.edu.br" required />
+    </div>
+
+    <div>
+        <label>Senha:</label>
+        <input type="password" th:field="*{senha}" placeholder="Digite uma senha" required />
+    </div>
+
+    <div>
+        <label>Matrícula:</label>
+        <input type="text" th:field="*{matricula}" placeholder="Ex: 2023123456" required />
+    </div>
+
+    <div>
+        <button type="submit">Salvar</button>
+        <a th:href="@{/admin/alunos}">Cancelar Edição</a>
+    </div>
+</form>
+
+<hr />
+
+<h3>Alunos Cadastrados</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Matrícula</th>
+        <th>Login</th>
+        <th>Telefone</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="aluno : ${listaDeAlunos}">
+        <td th:text="${aluno.id}"></td>
+        <td th:text="${aluno.nome}"></td>
+        <td th:text="${aluno.matricula}"></td>
+        <td th:text="${aluno.login}"></td>
+        <td th:text="${aluno.fone}"></td>
+        <td>
+            <a th:href="@{/admin/alunos/editar/{id}(id=${aluno.id})}">
+                Editar
+            </a>
+
+            <!-- Formulário de exclusão com POST -->
+            <form th:action="@{/admin/alunos/deletar/{id}(id=${aluno.id})}" method="post"
+                  onsubmit="return confirm('Tem certeza que deseja excluir este aluno?');"
+                  style="display:inline;">
+                <button type="submit">Excluir</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/admin/home-admin}">Voltar ao Painel</a>
+
+</body>
+</html>
