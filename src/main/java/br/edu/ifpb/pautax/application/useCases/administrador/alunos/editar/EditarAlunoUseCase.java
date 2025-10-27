@@ -15,7 +15,7 @@ public class EditarAlunoUseCase implements IEditarAlunoUseCase{
     public ModelAndView execute(Long id) {
         ModelAndView modelAndView = new ModelAndView("administrador/gerenciar-alunos");
         modelAndView.addObject("aluno", alunoRepository.findById(id).orElse(new Aluno()));
-        modelAndView.addObject("listaDeAssuntos", alunoRepository.findAll());
+        modelAndView.addObject("listaDeAlunos", alunoRepository.findAll());
         return modelAndView;
     }
 }
