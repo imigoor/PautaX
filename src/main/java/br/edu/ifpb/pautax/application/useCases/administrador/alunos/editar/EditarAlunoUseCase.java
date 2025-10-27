@@ -12,7 +12,7 @@ public class EditarAlunoUseCase implements IEditarAlunoUseCase{
     private final AlunoRepository alunoRepository;
 
     @Override
-    public ModelAndView execute(Long id) {
+    public ModelAndView execute(int id) {
         ModelAndView modelAndView = new ModelAndView("administrador/gerenciar-alunos");
         modelAndView.addObject("aluno", alunoRepository.findById(id).orElse(new Aluno()));
         modelAndView.addObject("listaDeAlunos", alunoRepository.findAll());

@@ -10,7 +10,7 @@ public class DeletarAlunoUseCase implements IDeletarAlunoUseCase {
     private final AlunoRepository alunoRepository;
 
     @Override
-    public String execute(Long id) {
+    public String execute(int id) {
         alunoRepository.deleteById(id);
 
         return "redirect:/admin/alunos";

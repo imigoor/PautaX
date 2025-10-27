@@ -62,13 +62,13 @@ public class AdminController {
     }
 
     @GetMapping("/alunos/editar/{id}")
-    public ModelAndView editarAluno(@PathVariable Long id)
+    public ModelAndView editarAluno(@PathVariable int id)
     {
         return editarAlunoUseCase.execute(id);
     }
 
     @PostMapping("/alunos/deletar/{id}")
-    public String deletarAluno(@PathVariable Long id)
+    public String deletarAluno(@PathVariable int id)
     {
         return deletarAlunoUseCase.execute(id);
     }
