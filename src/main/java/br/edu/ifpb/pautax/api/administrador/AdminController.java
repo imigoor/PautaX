@@ -8,8 +8,13 @@ import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.c
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.deletar.IDeletarAssuntosProcessosUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.editar.IEditarAssuntosProcessosUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.listar.IlistarAssuntosProcessosUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.cadastrar.ISalvarProfessorUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.deletar.IDeletarProfessorUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.editar.IEditarProfessorUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.listar.IListarProfessorUseCase;
 import br.edu.ifpb.pautax.domain.entities.Aluno;
 import br.edu.ifpb.pautax.domain.entities.Assunto;
+import br.edu.ifpb.pautax.domain.entities.Professor;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,11 @@ public class AdminController {
     private final ISalvarAlunoUseCase salvarAlunoUseCase;
     private final IEditarAlunoUseCase editarAlunoUseCase;
     private final IDeletarAlunoUseCase deletarAlunoUseCase;
+
+    private final IListarProfessorUseCase listarProfessorUseCase;
+    private final ISalvarProfessorUseCase salvarProfessorUseCase;
+    private final IEditarProfessorUseCase editarProfessorUseCase;
+    private final IDeletarProfessorUseCase deletarProfessorUseCase;
 
     //  -*-*- Home -*-*-
     @GetMapping("/home-admin")
@@ -72,6 +82,34 @@ public class AdminController {
     {
         return deletarAlunoUseCase.execute(id);
     }
+
+//  -*-*- Professor -*-*-
+    @GetMapping("/professores")
+    public ModelAndView mostrarProfessores()
+    {
+        ModelAndView modelAndView = listarProfessorUseCase.execute();
+        modelAndView.addObject("professor", new Professor());
+        return modelAndView;
+    }
+
+    @PostMapping("/professores/salvar")
+    public String cadastrarProfessor(@ModelAttribute Professor professor)
+    {
+        return salvarProfessorUseCase.execute(professor);
+    }
+
+    @GetMapping("/professores/editar/{id}")
+    public ModelAndView editarProfessor(@PathVariable int id)
+    {
+        return editarProfessorUseCase.execute(id);
+    }
+
+    @PostMapping("/professores/deletar/{id}")
+    public String deletarProfessor(@PathVariable int id)
+    {
+        return deletarProfessorUseCase.execute(id);
+    }
+
 
 //  -*-*- Assunto -*-*-
     @GetMapping("/assuntos")
