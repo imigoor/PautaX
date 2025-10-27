@@ -24,15 +24,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor()
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
-    public final IlistarAssuntosProcessosUseCase listarAssuntosProcessosUseCase;
-    public final ISalvarAssuntosProcessosUseCase salvarAssuntosProcessosUseCase;
-    public final IEditarAssuntosProcessosUseCase editarAssuntosProcessosUseCase;
-    public final IDeletarAssuntosProcessosUseCase deletarAssuntosProcessosUseCase;
+    private final IlistarAssuntosProcessosUseCase listarAssuntosProcessosUseCase;
+    private final ISalvarAssuntosProcessosUseCase salvarAssuntosProcessosUseCase;
+    private final IEditarAssuntosProcessosUseCase editarAssuntosProcessosUseCase;
+    private final IDeletarAssuntosProcessosUseCase deletarAssuntosProcessosUseCase;
 
-    public final IListarAlunoUseCase listarAlunoUseCase;
-    public final ISalvarAlunoUseCase salvarAlunoUseCase;
-    public final IEditarAlunoUseCase editarAlunoUseCase;
-    public final IDeletarAlunoUseCase deletarAlunoUseCase;
+    private final IListarAlunoUseCase listarAlunoUseCase;
+    private final ISalvarAlunoUseCase salvarAlunoUseCase;
+    private final IEditarAlunoUseCase editarAlunoUseCase;
+    private final IDeletarAlunoUseCase deletarAlunoUseCase;
 
     //  -*-*- Home -*-*-
     @GetMapping("/home-admin")
