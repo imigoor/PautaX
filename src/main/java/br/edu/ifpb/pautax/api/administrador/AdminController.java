@@ -53,8 +53,8 @@ public class AdminController {
         return editarAssuntosProcessosUseCase.execute(id);
     }
 
-    @GetMapping("/assuntos/deletar/{id}")
-    public ModelAndView deletarAssunto(@PathVariable Integer id)
+    @PostMapping("/assuntos/deletar/{id}")
+    public String deletarAssunto(@PathVariable Integer id)
     {
         return deletarAssuntosProcessosUseCase.execute(id);
     }
