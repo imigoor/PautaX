@@ -41,10 +41,11 @@
         Editar
       </a>
 
-      <a th:href="@{/admin/assuntos/deletar/{id}(id=${item.id})}"
-         onclick="return confirm('Tem certeza que deseja excluir?');">
-        Excluir
-      </a>
+        <form th:action="@{/admin/assuntos/deletar/{id}(id=${item.id})}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este assunto?');">
+                Excluir
+            </button>
+        </form>
     </td>
   </tr>
   </tbody>

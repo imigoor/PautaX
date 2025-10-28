@@ -27,7 +27,8 @@ public class Usuario {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            foreignKey = @ForeignKey(name = "fk_user_roles", foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES usuario(id) ON DELETE CASCADE")
     )
     @Column(name = "role")
     private Set<String> role;
