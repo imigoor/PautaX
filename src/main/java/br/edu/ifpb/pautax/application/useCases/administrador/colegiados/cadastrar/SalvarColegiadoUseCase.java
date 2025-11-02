@@ -14,6 +14,6 @@ public class SalvarColegiadoUseCase implements ISalvarColegiadoUseCase {
     @Override
     public String execute(Colegiado colegiado) {
         colegiadoRepository.save(colegiado);
-        return "redirect:/administrador/colegiados";
+        return "redirect:/admin/colegiados";
     }
 }
