@@ -5,14 +5,21 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Data
 public class Colegiado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataInicio;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataFim;
+    
     private String descricao;
     private String portaria;
     private String curso;
