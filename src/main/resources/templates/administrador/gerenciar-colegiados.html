@@ -1,0 +1,97 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gerenciar Colegiados</title>
+</head>
+<body>
+<h1>Gerenciar Colegiados</h1>
+
+<h3>Novo Colegiado</h3>
+<form th:action="@{/admin/colegiados/salvar}" th:object="${colegiado}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Data Início:</label>
+        <input type="date" th:field="*{dataInicio}" class="form-control" />
+    </div>
+    <div>
+        <label>Data Fim:</label>
+        <input type="date" th:field="*{dataFim}" class="form-control" />
+    </div>
+    <div>
+        <label>Descrição:</label>
+        <input type="text" th:field="*{descricao}" placeholder="Ex: Colegiado do Curso de SPI" required />
+    </div>
+    <div>
+        <label>Portaria:</label>
+        <input type="text" th:field="*{portaria}" placeholder="Ex: 001/2025-DG" />
+    </div>
+    <div>
+        <label>Curso:</label>
+        <input type="text" th:field="*{curso}" placeholder="Ex: Sistemas para Internet" />
+    </div>
+    
+    <div>
+        <label>Membros (Professores):</label>
+        <select th:field="*{membros}" multiple="multiple" size="5">
+            <option th:each="prof : ${todosProfessores}"
+                    th:value="${prof.id}"
+                    th:text="${prof.nome}">
+                Professor
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit">Salvar</button>
+        <a th:href="@{/admin/colegiados}">Cancelar Edição</a>
+    </div>
+</form>
+
+<hr />
+
+<h3>Colegiados Cadastrados</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Descrição</th>
+        <th>Curso</th>
+        <th>Vigência</th>
+        <th>Membros</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="col : ${listaDeColegiados}">
+        <td th:text="${col.id}">1</td>
+        <td th:text="${col.descricao}">Colegiado de SPI</td>
+        <td th:text="${col.curso}">Sistemas para Internet</td>
+        <td th:text="${#dates.format(col.dataInicio, 'dd/MM/yyyy') + ' - ' + #dates.format(col.dataFim, 'dd/MM/yyyy')}"></td>
+        
+        <td>
+            <ul>
+                <li th:each="membro : ${col.membros}" th:text="${membro.nome}">Nome Professor</li>
+            </ul>
+        </td>
+        
+        <td>
+            <a th:href="@{/admin/colegiados/editar/{id}(id=${col.id})}">
+                Editar
+            </a>
+
+            <form th:action="@{/admin/colegiados/deletar/{id}(id=${col.id})}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este colegiado?');">
+                    Excluir
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/admin/home-admin}">Voltar ao Painel</a>
+
+</body>
+</html>

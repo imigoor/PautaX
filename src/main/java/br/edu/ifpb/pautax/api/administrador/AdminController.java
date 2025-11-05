@@ -8,12 +8,17 @@ import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.c
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.deletar.IDeletarAssuntosProcessosUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.editar.IEditarAssuntosProcessosUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.listar.IlistarAssuntosProcessosUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.colegiados.cadastrar.ISalvarColegiadoUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.colegiados.deletar.IDeletarColegiadoUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.colegiados.editar.IEditarColegiadoUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.colegiados.listar.IListarColegiadoUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.cadastrar.ISalvarProfessorUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.deletar.IDeletarProfessorUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.editar.IEditarProfessorUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.listar.IListarProfessorUseCase;
 import br.edu.ifpb.pautax.domain.entities.Aluno;
 import br.edu.ifpb.pautax.domain.entities.Assunto;
+import br.edu.ifpb.pautax.domain.entities.Colegiado;
 import br.edu.ifpb.pautax.domain.entities.Professor;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
@@ -43,6 +48,11 @@ public class AdminController {
     private final ISalvarProfessorUseCase salvarProfessorUseCase;
     private final IEditarProfessorUseCase editarProfessorUseCase;
     private final IDeletarProfessorUseCase deletarProfessorUseCase;
+
+    private final IListarColegiadoUseCase listarColegiadoUseCase;
+    private final ISalvarColegiadoUseCase salvarColegiadoUseCase;
+    private final IEditarColegiadoUseCase editarColegiadoUseCase;
+    private final IDeletarColegiadoUseCase deletarColegiadoUseCase;
 
     //  -*-*- Home -*-*-
     @GetMapping("/home-admin")
@@ -134,5 +144,27 @@ public class AdminController {
     public String deletarAssunto(@PathVariable Integer id)
     {
         return deletarAssuntosProcessosUseCase.execute(id);
+    }
+
+
+    // -*-- Colegiado -*--
+    @GetMapping("/colegiados")
+    public ModelAndView mostrarGerenciarColegiado() {
+        return listarColegiadoUseCase.execute();
+    }
+
+    @PostMapping("/colegiados/salvar")
+    public String cadastrarColegiado(@ModelAttribute Colegiado colegiado) {
+        return salvarColegiadoUseCase.execute(colegiado);
+    }
+
+    @GetMapping("/colegiados/editar/{id}")
+    public ModelAndView editarColegiado(@PathVariable Integer id) {
+        return editarColegiadoUseCase.execute(id);
+    }
+
+    @PostMapping("/colegiados/deletar/{id}")
+    public String deletarColegiado(@PathVariable Integer id) {
+        return deletarColegiadoUseCase.execute(id);
     }
 }
