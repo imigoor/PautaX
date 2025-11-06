@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Aluno - Home</title>
+</head>
+<body>
+<h2>Bem-vindo, <span sec:authentication="name"></span>!</h2>
+<p>Seus papéis: <span sec:authentication="principal.authorities"></span></p>
+
+<h3>Informações do Aluno</h3>
+<p>Nome: <span th:text="${aluno.usuario.nome}">Nome do Aluno</span></p>
+<p>Matrícula: <span th:text="${aluno.matricula}">000000</span></p>
+
+<h3>Cadastrar Novo Processo</h3>
+
+<form th:action="@{/aluno/cadastrar-processo}" method="post" th:object="${processo}" enctype="multipart/form-data">
+
+    <label for="assunto">Assunto:</label><br>
+    <select id="assunto" th:field="*{assunto}" required>
+        <option value="">Selecione um assunto...</option>
+
+        <option th:each="assunto : ${listaAssuntos}"
+                th:value="${assunto.id}"
+                th:text="${assunto.nome}"> </option>
+    </select>
+    <br><br>
+
+    <label for="arquivoRequerimento">Requerimento (Anexo):</label><br>
+
+    <input type="file" id="arquivoRequerimento" name="arquivoRequerimento" required>
+
+    <br><br>
+    <p th:if="${statusCadastroProcesso}" th:text="${statusCadastroProcesso}" style="color: green;"></p>
+    <button type="submit">Cadastrar</button>
+</form>
+
+<a th:href="@{/logout}">Sair</a>
+</body>
+</html>
