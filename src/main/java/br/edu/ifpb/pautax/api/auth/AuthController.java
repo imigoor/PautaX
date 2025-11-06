@@ -23,23 +23,4 @@ public class AuthController {
     public String showHome() {
         return "home";
     }
-
-    /**
-     * Página inicial do aluno
-     * <p>
-     * Exibe a página inicial personalizada para o aluno autenticado.
-     *
-     * @param userDetails Detalhes do usuário autenticado. Obtido através da injeção do Spring Security com a anotação @AuthenticationPrincipal.
-     * @return ModelAndView contendo a visão "home-aluno" e os dados do aluno.
-     */
-    @GetMapping("/home-aluno")
-    public ModelAndView showHomeAluno(@AuthenticationPrincipal CustomUserDetails userDetails) {
-//      Obtém o usuário autenticado a partir dos detalhes do usuário fornecidos pelo Spring Security
-        Usuario aluno = userDetails.getUsuario();
-
-//      Cria e retorna o ModelAndView com a visão "home-aluno" e os dados do aluno
-        ModelAndView modelAndView = new ModelAndView("home-aluno");
-        modelAndView.addObject("aluno", aluno);
-        return modelAndView;
-    }
 }

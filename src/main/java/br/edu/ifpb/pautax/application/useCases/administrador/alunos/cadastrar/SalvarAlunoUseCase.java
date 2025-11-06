@@ -16,8 +16,8 @@ public class SalvarAlunoUseCase implements ISalvarAlunoUseCase{
 
     @Override
     public String execute(Aluno aluno) {
-        aluno.setSenha(encoder.encode(aluno.getSenha()));
-        aluno.setRole(Set.of("ROLE_ALUNO"));
+        aluno.getUsuario().setSenha(encoder.encode(aluno.getUsuario().getSenha()));
+        aluno.getUsuario().setRole(Set.of("ROLE_ALUNO"));
         alunoRepository.save(aluno);
 
         return "redirect:/admin/alunos";
