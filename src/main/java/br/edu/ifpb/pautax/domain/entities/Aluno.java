@@ -2,7 +2,7 @@ package br.edu.ifpb.pautax.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "usuario_id", nullable = false)
     Usuario usuario;
 
