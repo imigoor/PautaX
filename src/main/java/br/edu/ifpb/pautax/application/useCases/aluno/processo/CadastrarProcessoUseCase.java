@@ -39,7 +39,7 @@ public class CadastrarProcessoUseCase implements ICadastrarProcessoUseCase {
 
             rd.addFlashAttribute("statusCadastroProcesso", "Processo cadastrado com sucesso!!");
 
-            return "redirect:/aluno/home-aluno";
+            return "redirect:/aluno/gerenciar-processo";
 
         } catch (IOException e) {
             throw new RuntimeException("Falha ao processar o arquivo de requerimento.", e);

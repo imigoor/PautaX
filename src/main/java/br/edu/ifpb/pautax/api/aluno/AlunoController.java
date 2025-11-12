@@ -2,6 +2,7 @@ package br.edu.ifpb.pautax.api.aluno;
 
 import br.edu.ifpb.pautax.application.useCases.aluno.home.IMostrarHomeUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.ICadastrarProcessoUseCase;
+import br.edu.ifpb.pautax.application.useCases.aluno.processo.listar.IListarProcessoAlunoUseCase;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AlunoController {
     private final IMostrarHomeUseCase mostrarHomeUseCase;
     private final ICadastrarProcessoUseCase cadastrarProcessoUseCase;
+    private final IListarProcessoAlunoUseCase listarProcessoAlunoUseCase;
 
     /**
      * Página inicial do aluno
@@ -32,6 +34,11 @@ public class AlunoController {
     @GetMapping("/home-aluno")
     public ModelAndView mostrarHomeAluno(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return mostrarHomeUseCase.execute(userDetails);
+    }
+
+    @GetMapping("/gerenciar-processo")
+    public ModelAndView gerenciarProcesso(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return listarProcessoAlunoUseCase.execute(userDetails);
     }
 
     @PostMapping("/cadastrar-processo")
