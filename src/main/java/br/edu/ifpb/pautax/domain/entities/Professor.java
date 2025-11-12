@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Professor extends Usuario{
     private String matricula;
 
     @ManyToMany(mappedBy = "membros")
+    @ToString.Exclude
     private List<Colegiado> colegiados;
 
     @OneToMany(mappedBy = "relator")
