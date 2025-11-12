@@ -33,7 +33,7 @@ public class CadastrarProcessoUseCase implements ICadastrarProcessoUseCase {
             processo.setRequerimento(arquivo.getBytes());
             processo.setStatusProcesso(StatusProcesso.CRIADO);
             processo.setNumero(gerarNumeroProcesso());
-            processo.setDataRecepcao(LocalDate.now());
+            processo.setDataRegistro(LocalDate.now());
 
             processoRepository.save(processo);
 
