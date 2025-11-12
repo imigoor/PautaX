@@ -14,7 +14,7 @@ public class Processo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String numero;
-    private LocalDate dataRecepcao;
+    private LocalDate dataRegistro;
     private LocalDate dataDistribuicao;
     private LocalDate dataParecer;
 
