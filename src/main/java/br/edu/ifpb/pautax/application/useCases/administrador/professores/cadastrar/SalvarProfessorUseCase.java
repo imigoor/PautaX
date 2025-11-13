@@ -21,14 +21,7 @@ public class SalvarProfessorUseCase implements ISalvarProfessorUseCase {
     public String execute(Professor professor) {
         Usuario usuario = professor.getUsuario(); // Objeto vindo do formulário
 
-//        if (usuario.getId() > 0) {
-//            // É EDIÇÃO: Buscamos o usuário existente para obter o ID e a senha antiga.
-//            Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
-//                    .orElseThrow(() -> new RuntimeException("Usuário a ser editado não encontrado."));
-//            usuario.setId(usuarioExistente.getId());
-//        } else {
         usuario.setSenha(encoder.encode(usuario.getSenha()));
-        //}
 
         if (professor.isCoordenador()) {
             usuario.setRole(Set.of("ROLE_COORDENADOR"));
