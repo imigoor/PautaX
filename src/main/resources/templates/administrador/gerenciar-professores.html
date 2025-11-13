@@ -11,24 +11,26 @@
 
     <input type="hidden" th:field="*{id}" />
 
+    <input type="hidden" th:field="*{usuario.id}" />
+
     <div>
         <label>Nome:</label>
-        <input type="text" th:field="*{nome}" placeholder="Digite o nome completo" required />
+        <input type="text" th:field="*{usuario.nome}" placeholder="Digite o nome completo" required />
     </div>
 
     <div>
         <label>Telefone:</label>
-        <input type="text" th:field="*{fone}" placeholder="(83) 99999-9999" />
+        <input type="text" th:field="*{usuario.fone}" placeholder="(83) 99999-9999" />
     </div>
 
     <div>
         <label>Login:</label>
-        <input type="text" th:field="*{login}" placeholder="ex: maria@ifpb.edu.br" required />
+        <input type="text" th:field="*{usuario.login}" placeholder="ex: maria@ifpb.edu.br" required />
     </div>
 
     <div>
         <label>Senha:</label>
-        <input type="password" th:field="*{senha}" placeholder="Digite uma senha" required />
+        <input type="password" th:field="*{usuario.senha}" placeholder="Digite uma senha" required />
     </div>
 
     <div>
@@ -65,10 +67,10 @@
     <tbody>
     <tr th:each="professor : ${listaDeProfessores}">
         <td th:text="${professor.id}"></td>
-        <td th:text="${professor.nome}"></td>
+        <td th:text="${professor.usuario.nome}"></td>
         <td th:text="${professor.matricula}"></td>
-        <td th:text="${professor.login}"></td>
-        <td th:text="${professor.fone}"></td>
+        <td th:text="${professor.usuario.login}"></td>
+        <td th:text="${professor.usuario.fone}"></td>
         <td th:text="${professor.coordenador} ? 'Sim' : 'Não'"></td>
         <td>
             <a th:href="@{/admin/professores/editar/{id}(id=${professor.id})}">
