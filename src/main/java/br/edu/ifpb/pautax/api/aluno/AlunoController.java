@@ -3,8 +3,10 @@ package br.edu.ifpb.pautax.api.aluno;
 import br.edu.ifpb.pautax.application.useCases.aluno.home.IMostrarHomeUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.ICadastrarProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.listar.IListarProcessoAlunoUseCase;
+import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.service.spi.InjectService;
@@ -37,8 +39,10 @@ public class AlunoController {
     }
 
     @GetMapping("/gerenciar-processo")
-    public ModelAndView gerenciarProcesso(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return listarProcessoAlunoUseCase.execute(userDetails);
+    public ModelAndView gerenciarProcesso(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                          @RequestParam(value = "status", required = false) StatusProcesso status,
+                                          @RequestParam(value = "assuntoId", required = false) Assunto assunto) {
+        return listarProcessoAlunoUseCase.execute(userDetails, status, assunto);
     }
 
     @PostMapping("/cadastrar-processo")
