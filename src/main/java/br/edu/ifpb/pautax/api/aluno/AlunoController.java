@@ -41,8 +41,9 @@ public class AlunoController {
     @GetMapping("/gerenciar-processo")
     public ModelAndView gerenciarProcesso(@AuthenticationPrincipal CustomUserDetails userDetails,
                                           @RequestParam(value = "status", required = false) StatusProcesso status,
-                                          @RequestParam(value = "assuntoId", required = false) Assunto assunto) {
-        return listarProcessoAlunoUseCase.execute(userDetails, status, assunto);
+                                          @RequestParam(value = "assuntoId", required = false) Assunto assunto,
+                                          @RequestParam(value = "sort", required = false) String sort) {
+        return listarProcessoAlunoUseCase.execute(userDetails, status, assunto, sort);
     }
 
     @PostMapping("/cadastrar-processo")

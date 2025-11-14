@@ -6,5 +6,5 @@ import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface IListarProcessoAlunoUseCase {
-    ModelAndView execute(CustomUserDetails userDetails, StatusProcesso status, Assunto assunto);
+    ModelAndView execute(CustomUserDetails userDetails, StatusProcesso status, Assunto assunto, String sort);
 }

@@ -19,10 +19,10 @@ public class ListarProcessoAlunoUseCase implements IListarProcessoAlunoUseCase{
     private final ProcessoRepository processoRepository;
 
     @Override
-    public ModelAndView execute(CustomUserDetails userDetails, StatusProcesso status, Assunto assunto) {
+    public ModelAndView execute(CustomUserDetails userDetails, StatusProcesso status, Assunto assunto, String sort) {
         ModelAndView modelAndView = new ModelAndView("aluno/gerenciar-processo");
 
-        Specification<Processo> spec = ProcessoSpecification.filter(status, assunto);
+        Specification<Processo> spec = ProcessoSpecification.filter(status, assunto, sort);
 
         modelAndView.addObject("listaAssuntos", assuntoRepository.findAll());
         modelAndView.addObject("listaProcesso", processoRepository.findAll(spec));

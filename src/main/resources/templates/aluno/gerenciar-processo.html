@@ -53,6 +53,15 @@
                 th:value="${status}"
                 th:text="${status}"
                 th:selected="${param.status == status}">
+
+    <label for="ordenacao">Ordenar por:</label><br>
+    <select id="ordenacao" name="sort">
+        <option value="dataRecepcaoDesc"
+                th:selected="(${sort} == null or ${sort} == 'dataRecepcaoDesc')"> Data de Recepção (Mais Recentes Primeiro)
+        </option>
+
+        <option value="dataRecepcaoAsc"
+                th:selected="${sort} == 'dataRecepcaoAsc'"> Data de Recepção (Mais Antigos Primeiro)
         </option>
     </select>
     <br><br>
