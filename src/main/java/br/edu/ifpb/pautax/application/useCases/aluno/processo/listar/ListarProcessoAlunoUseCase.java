@@ -24,6 +24,11 @@ public class ListarProcessoAlunoUseCase implements IListarProcessoAlunoUseCase{
 
         Specification<Processo> spec = ProcessoSpecification.filter(status, assunto, sort);
 
+
+        modelAndView.addObject("assuntoId", assunto != null ? assunto.getId() : null);
+        modelAndView.addObject("status", status);
+        modelAndView.addObject("sort", sort);
+
         modelAndView.addObject("listaAssuntos", assuntoRepository.findAll());
         modelAndView.addObject("listaProcesso", processoRepository.findAll(spec));
         modelAndView.addObject("processo", new Processo());

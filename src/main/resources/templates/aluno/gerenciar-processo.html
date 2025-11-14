@@ -41,7 +41,7 @@
         <option th:each="assunto : ${listaAssuntos}"
                 th:value="${assunto.id}"
                 th:text="${assunto.nome}"
-                th:selected="${param.assuntoId == assunto.id}">
+                th:selected="${assuntoId} == ${assunto.id}">
         </option>
     </select>
     <br><br>
@@ -49,10 +49,12 @@
     <label for="filtroStatus">Filtrar por Status:</label><br>
     <select id="filtroStatus" name="status">
         <option value="">Todos os status</option>
-        <option th:each="status : ${T(br.edu.ifpb.pautax.domain.enums.StatusProcesso).values()}"
-                th:value="${status}"
-                th:text="${status}"
-                th:selected="${param.status == status}">
+        <option th:each="stat : ${T(br.edu.ifpb.pautax.domain.enums.StatusProcesso).values()}"
+                th:value="${stat}"
+                th:text="${stat}"
+                th:selected="${status != null and status.name() == stat.name()}"> </option>
+    </select>
+    <br><br>
 
     <label for="ordenacao">Ordenar por:</label><br>
     <select id="ordenacao" name="sort">
