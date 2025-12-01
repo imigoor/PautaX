@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -33,5 +34,6 @@ public class Colegiado {
             joinColumns = @JoinColumn(name = "colegiado_id"),
             inverseJoinColumns = @JoinColumn(name = "professor_id")
     )
+    @ToString.Exclude
     private List<Professor> membros;
 }

@@ -19,7 +19,7 @@ public class SalvarProfessorUseCase implements ISalvarProfessorUseCase {
 
     @Override
     public String execute(Professor professor) {
-        Usuario usuario = professor.getUsuario(); // Objeto vindo do formulário
+        Usuario usuario = professor.getUsuario();
 
         usuario.setSenha(encoder.encode(usuario.getSenha()));
 

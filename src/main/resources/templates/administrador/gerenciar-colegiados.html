@@ -36,7 +36,7 @@
         <select th:field="*{membros}" multiple="multiple" size="5">
             <option th:each="prof : ${todosProfessores}"
                     th:value="${prof.id}"
-                    th:text="${prof.nome}">
+                    th:text="${prof.usuario.nome}">
                 Professor
             </option>
         </select>
@@ -71,7 +71,7 @@
         
         <td>
             <ul>
-                <li th:each="membro : ${col.membros}" th:text="${membro.nome}">Nome Professor</li>
+                <li th:each="membro : ${col.membros}" th:text="${membro.usuario.nome}">Nome Professor</li>
             </ul>
         </td>
         

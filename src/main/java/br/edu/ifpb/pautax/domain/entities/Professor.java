@@ -3,6 +3,7 @@ package br.edu.ifpb.pautax.domain.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class Professor {
     Usuario usuario;
 
     @ManyToMany(mappedBy = "membros")
+    @ToString.Exclude
     private List<Colegiado> colegiados;
 
     @OneToMany(mappedBy = "relator")

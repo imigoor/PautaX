@@ -11,24 +11,26 @@
 
     <input type="hidden" th:field="*{id}" />
 
+    <input type="hidden" th:field="*{usuario.id}" />
+
     <div>
         <label>Nome:</label>
-        <input type="text" th:field="*{nome}" placeholder="Digite o nome completo" required />
+        <input type="text" th:field="*{usuario.nome}" placeholder="Digite o nome completo" required />
     </div>
 
     <div>
         <label>Telefone:</label>
-        <input type="text" th:field="*{fone}" placeholder="(83) 99999-9999" />
+        <input type="text" th:field="*{usuario.fone}" placeholder="(83) 99999-9999" />
     </div>
 
     <div>
         <label>Login:</label>
-        <input type="text" th:field="*{login}" placeholder="ex: joao@ifpb.edu.br" required />
+        <input type="text" th:field="*{usuario.login}" placeholder="ex: joao@ifpb.edu.br" required />
     </div>
 
     <div>
         <label>Senha:</label>
-        <input type="password" th:field="*{senha}" placeholder="Digite uma senha" required />
+        <input type="password" th:field="*{usuario.senha}" placeholder="Digite uma senha" required />
     </div>
 
     <div>
@@ -59,10 +61,10 @@
     <tbody>
     <tr th:each="aluno : ${listaDeAlunos}">
         <td th:text="${aluno.id}"></td>
-        <td th:text="${aluno.nome}"></td>
+        <td th:text="${aluno.usuario.nome}"></td>
         <td th:text="${aluno.matricula}"></td>
-        <td th:text="${aluno.login}"></td>
-        <td th:text="${aluno.fone}"></td>
+        <td th:text="${aluno.usuario.login}"></td>
+        <td th:text="${aluno.usuario.fone}"></td>
         <td>
             <a th:href="@{/admin/alunos/editar/{id}(id=${aluno.id})}">
                 Editar
