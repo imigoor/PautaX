@@ -22,12 +22,17 @@ import br.edu.ifpb.pautax.domain.entities.Colegiado;
 import br.edu.ifpb.pautax.domain.entities.Professor;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
+import jakarta.validation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.naming.Binding;
 
 @Controller
 @RequestMapping("/admin")
@@ -76,8 +81,14 @@ public class AdminController {
     }
 
     @PostMapping("/alunos/salvar")
-    public String cadastrarAluno(@ModelAttribute Aluno aluno)
+    public String cadastrarAluno(@Valid @ModelAttribute Aluno aluno, BindingResult result, Model model)
     {
+        if (result.hasErrors())
+        {
+            model.addAttribute("listaDeAlunos", listarAlunoUseCase.execute().getModel().get("listaDeAlunos"));
+            return "administrador/gerenciar-alunos";
+        }
+
         return salvarAlunoUseCase.execute(aluno);
     }
 
@@ -103,8 +114,14 @@ public class AdminController {
     }
 
     @PostMapping("/professores/salvar")
-    public String cadastrarProfessor(@ModelAttribute Professor professor)
+    public String cadastrarProfessor(@Valid @ModelAttribute Professor professor, BindingResult result, Model model)
     {
+        if (result.hasErrors()) {
+
+            model.addAttribute("listaDeProfessores", listarProfessorUseCase.execute().getModel().get("listaDeProfessores"));
+            return "administrador/gerenciar-professores";
+        }
+
         return salvarProfessorUseCase.execute(professor);
     }
 
@@ -129,8 +146,13 @@ public class AdminController {
     }
 
     @PostMapping("/assuntos/salvar")
-    public String cadastrarAssunto(@ModelAttribute Assunto assunto)
+    public String cadastrarAssunto(@Valid @ModelAttribute Assunto assunto, BindingResult result, Model model)
     {
+        if (result.hasErrors()) {
+            model.addAttribute("listaDeAssuntos", listarAssuntosProcessosUseCase.execute().getModel().get("listaDeAssuntos"));
+            return "administrador/gerenciar-assuntos";
+        }
+
         return salvarAssuntosProcessosUseCase.execute(assunto);
     }
 
@@ -154,7 +176,13 @@ public class AdminController {
     }
 
     @PostMapping("/colegiados/salvar")
-    public String cadastrarColegiado(@ModelAttribute Colegiado colegiado) {
+    public String cadastrarColegiado(@Valid @ModelAttribute Colegiado colegiado, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("listaDeColegiados", listarColegiadoUseCase.execute().getModel().get("listaDeColegiados"));
+            model.addAttribute("todosProfessores", listarColegiadoUseCase.execute().getModel().get("todosProfessores"));
+            return "administrador/gerenciar-colegiados";
+        }
+
         return salvarColegiadoUseCase.execute(colegiado);
     }
 
