@@ -10,25 +10,32 @@
 
     <input type="hidden" th:field="*{id}" />
 
+    <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red;"></div>
+
     <div>
         <label>Data Início:</label>
         <input type="date" th:field="*{dataInicio}" class="form-control" />
+        <div th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}" style="color:red;"></div>
     </div>
     <div>
         <label>Data Fim:</label>
         <input type="date" th:field="*{dataFim}" class="form-control" />
+        <div th:if="${#fields.hasErrors('dataFim')}" th:errors="*{dataFim}" style="color:red;"></div>
     </div>
     <div>
         <label>Descrição:</label>
-        <input type="text" th:field="*{descricao}" placeholder="Ex: Colegiado do Curso de SPI" required />
+        <input type="text" th:field="*{descricao}" placeholder="Ex: Colegiado do Curso de SPI" />
+        <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" style="color:red;"></div>
     </div>
     <div>
         <label>Portaria:</label>
         <input type="text" th:field="*{portaria}" placeholder="Ex: 001/2025-DG" />
+        <div th:if="${#fields.hasErrors('portaria')}" th:errors="*{portaria}" style="color:red;"></div>
     </div>
     <div>
         <label>Curso:</label>
         <input type="text" th:field="*{curso}" placeholder="Ex: Sistemas para Internet" />
+        <div th:if="${#fields.hasErrors('curso')}" th:errors="*{curso}" style="color:red;"></div>
     </div>
     
     <div>
@@ -40,6 +47,7 @@
                 Professor
             </option>
         </select>
+        <div th:if="${#fields.hasErrors('membros')}" th:errors="*{membros}" style="color:red;"></div>
     </div>
 
     <div>
