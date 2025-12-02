@@ -5,20 +5,26 @@ import br.edu.ifpb.pautax.application.useCases.aluno.processo.ICadastrarProcesso
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.service.spi.InjectService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/aluno")
 @RequiredArgsConstructor()
 public class AlunoController {
     private final IMostrarHomeUseCase mostrarHomeUseCase;
+
     private final ICadastrarProcessoUseCase cadastrarProcessoUseCase;
 
     /**
@@ -36,11 +42,26 @@ public class AlunoController {
 
     @PostMapping("/cadastrar-processo")
     public String cadastrarProcesso(
-            @ModelAttribute Processo processo,
+            @Valid @ModelAttribute Processo processo,
+            BindingResult result,
             @RequestParam("arquivoRequerimento") MultipartFile arquivo,
             @AuthenticationPrincipal CustomUserDetails userDetails,
+            Model model,
             RedirectAttributes rd)
     {
+        if (arquivo.isEmpty()) {
+            result.rejectValue("requerimento", "error.processo", "O arquivo do requerimento é obrigatório.");
+        }
+
+        if (result.hasErrors()) {
+            Map<String, Object> dadosDoUseCase = mostrarHomeUseCase.execute(userDetails).getModel();
+
+            model.addAttribute("listaAssuntos", dadosDoUseCase.get("listaAssuntos"));
+            model.addAttribute("aluno", dadosDoUseCase.get("aluno"));
+
+            return "aluno/home-aluno";
+        }
+
         return cadastrarProcessoUseCase.execute(processo, arquivo, userDetails, rd);
     }
 }
