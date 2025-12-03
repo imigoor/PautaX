@@ -59,11 +59,11 @@
     <label for="ordenacao">Ordenar por:</label><br>
     <select id="ordenacao" name="sort">
         <option value="dataRecepcaoDesc"
-                th:selected="(${sort} == null or ${sort} == 'dataRecepcaoDesc')"> Data de Recepção (Mais Recentes Primeiro)
+                th:selected="(${sort} == null or ${sort} == 'dataRecepcaoDesc')"> Data de Registro (Mais Recentes Primeiro)
         </option>
 
         <option value="dataRecepcaoAsc"
-                th:selected="${sort} == 'dataRecepcaoAsc'"> Data de Recepção (Mais Antigos Primeiro)
+                th:selected="${sort} == 'dataRecepcaoAsc'"> Data de Registro (Mais Antigos Primeiro)
         </option>
     </select>
     <br><br>
@@ -83,7 +83,7 @@
         <th>Número</th>
         <th>Assunto</th>
         <th>Status</th>
-        <th>Data de Recepção</th>
+        <th>Data de Registro</th>
     </tr>
     </thead>
     <tbody>
@@ -92,7 +92,7 @@
         <td th:text="${proc.numero}"></td>
         <td th:text="${proc.assunto.nome}"></td>
         <td th:text="${proc.statusProcesso}"></td>
-        <td th:text="${proc.dataRecepcao}"></td>
+        <td th:text="${proc.dataRegistro}"></td>
     </tr>
     <tr th:if="${#lists.isEmpty(listaProcesso)}">
         <td colspan="5">Nenhum processo encontrado.</td>

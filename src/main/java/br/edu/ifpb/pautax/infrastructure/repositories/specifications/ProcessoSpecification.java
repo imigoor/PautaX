@@ -24,10 +24,10 @@ public class ProcessoSpecification {
 
                 switch (sort) {
                     case "dataRecepcaoAsc":
-                        query.orderBy(criteriaBuilder.asc(root.get("dataRecepcao")));
+                        query.orderBy(criteriaBuilder.asc(root.get("dataRegistro")));
                         break;
                     case "dataRecepcaoDesc":
-                        query.orderBy(criteriaBuilder.desc(root.get("dataRecepcao")));
+                        query.orderBy(criteriaBuilder.desc(root.get("dataRegistro")));
                         break;
                     default:
                         query.orderBy(criteriaBuilder.desc(root.get("id")));
