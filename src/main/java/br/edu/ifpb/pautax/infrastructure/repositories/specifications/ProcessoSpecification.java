@@ -1,12 +1,13 @@
 package br.edu.ifpb.pautax.infrastructure.repositories.specifications;
 
+import br.edu.ifpb.pautax.domain.entities.Aluno;
 import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProcessoSpecification {
-    public static Specification<Processo> filter(StatusProcesso status, Assunto assunto, String sort) {
+    public static Specification<Processo> filter(StatusProcesso status, Assunto assunto, Aluno aluno, String sort) {
         return (root, query, criteriaBuilder) -> {
             var predicates = criteriaBuilder.conjunction();
 
@@ -18,6 +19,11 @@ public class ProcessoSpecification {
             if (assunto != null) {
                 predicates = criteriaBuilder.and(predicates,
                         criteriaBuilder.equal(root.get("assunto"), assunto));
+            }
+
+            if (aluno != null) {
+                predicates = criteriaBuilder.and(predicates,
+                        criteriaBuilder.equal(root.get("interessado"), aluno));
             }
 
             if (sort != null && !sort.isBlank()) {
