@@ -3,6 +3,7 @@ package br.edu.ifpb.pautax.domain.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -18,5 +19,6 @@ public class Assunto {
     private String nome;
 
     @OneToMany(mappedBy = "assunto")
+    @ToString.Exclude
     private List<Processo> processos;
 }
