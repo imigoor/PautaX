@@ -1,5 +1,6 @@
 package br.edu.ifpb.pautax.application.useCases.administrador.professores.deletar;
 
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
@@ -31,6 +32,7 @@ public class DeletarProfessorUseCase implements IDeletarProfessorUseCase{
 
         processos.forEach(processo -> {
             processo.setRelator(null);
+            processo.setStatusProcesso(StatusProcesso.CRIADO);
             processoRepository.save(processo);
         });
 
