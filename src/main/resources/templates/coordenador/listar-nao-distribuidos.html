@@ -31,12 +31,10 @@
 
             <tbody>
 
-            <!-- Sem processos -->
             <tr th:if="${processosPendentes.isEmpty()}">
                 <td colspan="4" class="text-center fw-bold">Nenhum processo pendente.</td>
             </tr>
 
-            <!-- Listagem -->
             <tr th:each="proc : ${processosPendentes}">
                 <td th:text="${proc.numero}"></td>
                 <td th:text="${proc.assunto.nome}"></td>
