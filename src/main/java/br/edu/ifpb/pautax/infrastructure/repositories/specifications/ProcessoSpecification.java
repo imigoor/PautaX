@@ -39,4 +39,29 @@ public class ProcessoSpecification {
             return predicates;
         };
     }
+
+    public static Specification<Processo> filterByCoordenador(StatusProcesso status, Integer alunoId, Integer relatorId) {
+        return (root, query, criteriaBuilder) -> {// Cria um predicado inicial "verdadeiro" (AND vazio)
+            var predicates = criteriaBuilder.conjunction();
+
+            if (status != null) {
+                predicates = criteriaBuilder.and(predicates,
+                        criteriaBuilder.equal(root.get("statusProcesso"), status));
+            }
+
+            if (alunoId != null) {
+                predicates = criteriaBuilder.and(predicates,
+                        criteriaBuilder.equal(root.get("interessado").get("id"), alunoId));
+            }
+
+            if (relatorId != null) {
+                predicates = criteriaBuilder.and(predicates,
+                        criteriaBuilder.equal(root.get("relator").get("id"), relatorId));
+            }
+
+            query.orderBy(criteriaBuilder.desc(root.get("id")));
+
+            return predicates;
+        };
+    }
 }
