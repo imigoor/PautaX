@@ -71,7 +71,7 @@ public class AlunoController {
             model.addAttribute("listaAssuntos", dadosDoUseCase.get("listaAssuntos"));
             model.addAttribute("aluno", dadosDoUseCase.get("aluno"));
 
-            return "aluno/home-aluno";
+            return "aluno/gerenciar-processo";
         }
 
         return cadastrarProcessoUseCase.execute(processo, arquivo, userDetails, rd);
