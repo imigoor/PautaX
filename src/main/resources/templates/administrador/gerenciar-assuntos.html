@@ -74,6 +74,8 @@
     </tbody>
   </table>
 
+  <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
   <a th:href="@{/admin/home-admin}" class="btn btn-dark mt-3">Voltar ao Painel</a>
 
 </div>

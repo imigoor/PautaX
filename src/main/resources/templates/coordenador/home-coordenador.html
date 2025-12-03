@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Aluno - Home</title>
+</head>
+<body>
+<h2>Bem-vindo, <span sec:authentication="name"></span>!</h2>
+<p>Seus papéis: <span sec:authentication="principal.authorities"></span></p>
+<h2>Painel do Coordenador</h2>
+<ul>
+    <li><a th:href="@{/coordenador/listar-processo}">Distribuir Processos Pendentes</a></li>
+    <li><a th:href="@{/coordenador/listar-pendentes}">Distribuir Processos Pendentes</a></li>
+</ul>
+<a th:href="@{/logout}">Sair</a>
+</body>
+</html>

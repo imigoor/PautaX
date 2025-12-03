@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Distribuir Processos</title>
+</head>
+<body>
+<h1>Processos Pendentes de Distribuição</h1>
+
+<table border="1"> <thead>
+<tr>
+    <th>Número</th>
+    <th>Assunto</th>
+    <th>Aluno</th>
+    <th>Designar Relator</th> </tr>
+</thead>
+    <tbody>
+    <tr th:if="${processosPendentes.isEmpty()}">
+        <td colspan="4">Nenhum processo pendente.</td>
+    </tr>
+
+    <tr th:each="proc : ${processosPendentes}">
+        <td th:text="${proc.numero}"></td>
+        <td th:text="${proc.assunto.nome}"></td>
+        <td th:text="${proc.interessado.usuario.nome}"></td>
+
+        <td>
+            <form th:action="@{/coordenador/distribuir-processo}" method="post">
+                <input type="hidden" name="idProcesso" th:value="${proc.id}" />
+
+                <select name="idRelator" required>
+                    <option value="">Selecione um Relator...</option>
+                    <option th:each="prof : ${listaProfessores}"
+                            th:value="${prof.id}"
+                            th:text="${prof.usuario.nome}"></option>
+                </select>
+
+                <button type="submit">Distribuir</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/coordenador/home-coordenador}">Voltar</a>
+</body>
+</html>

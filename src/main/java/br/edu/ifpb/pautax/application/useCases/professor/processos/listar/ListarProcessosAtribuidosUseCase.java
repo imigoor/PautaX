@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ifpb.pautax.domain.entities.Processo;
@@ -19,6 +20,8 @@ public class ListarProcessosAtribuidosUseCase implements IListarProcessosAtribui
     private final ProcessoRepository processoRepository;
     private final ProfessorRepository professorRepository;
 
+    @Override
+    @Transactional
     public ModelAndView execute(Usuario professorLogado) {
         Professor professor = professorRepository.findByUsuario(professorLogado)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado."));;
