@@ -100,9 +100,9 @@ public class AdminController {
     }
 
     @PostMapping("/alunos/deletar/{id}")
-    public String deletarAluno(@PathVariable int id)
+    public String deletarAluno(@PathVariable int id, RedirectAttributes redirectAttributes)
     {
-        return deletarAlunoUseCase.execute(id);
+        return deletarAlunoUseCase.execute(id, redirectAttributes);
     }
 
 //  -*-*- Professor -*-*-

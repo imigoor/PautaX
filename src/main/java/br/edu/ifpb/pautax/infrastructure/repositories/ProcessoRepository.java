@@ -1,5 +1,6 @@
 package br.edu.ifpb.pautax.infrastructure.repositories;
 
+import br.edu.ifpb.pautax.domain.entities.Aluno;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Professor;
 
@@ -12,4 +13,6 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer>, Jp
 
     List<Processo> findByRelator(Professor findByRelator);
     List<Processo> findByRelatorIsNull();
+
+    List<Processo> findAllByInteressado(Aluno aluno);
 }
