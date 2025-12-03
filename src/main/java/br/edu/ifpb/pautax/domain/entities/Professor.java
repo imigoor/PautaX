@@ -32,6 +32,7 @@ public class Professor {
     private List<Colegiado> colegiados;
 
     @OneToMany(mappedBy = "relator")
+    @ToString.Exclude
     private List<Processo> processosRelatados;
 
     @OneToMany(mappedBy = "professor")

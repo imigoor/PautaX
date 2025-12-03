@@ -3,36 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Meus Processos Atribuídos</title>
-    </head>
-<body>
-    <div class="container">
-        <h1>Meus Processos Atribuídos</h1>
-        <p>Aqui estão todos os processos designados a você como relator.</p>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nº Processo</th>
-                    <th>Assunto</th>
-                    <th>Aluno Interessado</th>
-                    <th>Data de Distribuição</th>
-                </tr>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        a { text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h1 class="mb-3">Meus Processos Atribuídos</h1>
+    <p class="mb-4">Aqui estão todos os processos designados a você como relator.</p>
+
+    <div class="card shadow p-4 mb-4">
+
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-secondary">
+            <tr>
+                <th>Nº Processo</th>
+                <th>Assunto</th>
+                <th>Aluno Interessado</th>
+                <th>Data de Distribuição</th>
+            </tr>
             </thead>
+
             <tbody>
-                <tr th:if="${processosAtribuidos.isEmpty()}">
-                    <td colspan="4">Você não possui processos atribuídos no momento.</td>
-                </tr>
-                <tr th:each="proc : ${processosAtribuidos}">
-                    <td th:text="${proc.numero}">001/2025</td>
-                    <td th:text="${proc.assunto.nome}">Reabertura de Matrícula</td>
-                    <td th:text="${proc.interessado.usuario.nome}">José da Silva</td>
-                    <td th:text="${#temporals.format(proc.dataDistribuicao, 'dd/MM/yyyy')}">01/11/2025</td>
-                </tr>
+            <tr th:if="${processosAtribuidos.isEmpty()}">
+                <td colspan="4" class="text-center">
+                    Você não possui processos atribuídos no momento.
+                </td>
+            </tr>
+
+            <tr th:each="proc : ${processosAtribuidos}">
+                <td th:text="${proc.numero}">001/2025</td>
+                <td th:text="${proc.assunto.nome}">Reabertura de Matrícula</td>
+                <td th:text="${proc.interessado.usuario.nome}">José da Silva</td>
+                <td th:text="${#temporals.format(proc.dataDistribuicao, 'dd/MM/yyyy')}">
+                    01/11/2025
+                </td>
+            </tr>
             </tbody>
         </table>
-
-        <br/>
-        <a th:href="@{/professor/home-professor}">Voltar ao Painel</a>
     </div>
+
+    <a th:href="@{/professor/home-professor}" class="btn btn-secondary">Voltar ao Painel</a>
+
+</div>
+
 </body>
 </html>
