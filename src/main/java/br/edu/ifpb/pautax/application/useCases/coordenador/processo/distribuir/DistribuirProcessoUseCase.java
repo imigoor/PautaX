@@ -2,6 +2,7 @@ package br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir;
 
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Professor;
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class DistribuirProcessoUseCase implements IDistribuirProcessoUseCase {
         Professor relator = professorRepository.findById(idRelator).get();
 
         processo.setRelator(relator);
+        processo.setStatusProcesso(StatusProcesso.DISTRIBUIDO);
         processo.setDataDistribuicao(LocalDate.now());
 
         processoRepository.save(processo);
