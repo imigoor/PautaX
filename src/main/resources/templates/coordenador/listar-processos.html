@@ -3,81 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <title>Consultar Processos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        a { text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
-<body>
 
-<h1>Consultar Processos</h1>
+<body class="bg-light">
 
-<form th:action="@{/coordenador/listar-processo}" method="get">
+<div class="container mt-5">
 
-    <label for="filtroStatus">Filtrar por Status:</label><br>
-    <select id="filtroStatus" name="status">
-        <option value="">Todos os status</option>
-        <option th:each="stat : ${T(br.edu.ifpb.pautax.domain.enums.StatusProcesso).values()}"
-                th:value="${stat}"
-                th:text="${stat}"
-                th:selected="${statusSelecionado != null and statusSelecionado.name() == stat.name()}">
-        </option>
-    </select>
-    <br><br>
+    <div class="card shadow p-4">
+        <h1 class="mb-4">Consultar Processos</h1>
 
-    <label for="filtroAluno">Filtrar por Aluno:</label><br>
-    <select id="filtroAluno" name="idAluno">
-        <option value="">Todos os alunos</option>
-        <option th:each="aluno : ${listaAlunos}"
-                th:value="${aluno.id}"
-                th:text="${aluno.usuario.nome}" th:selected="${alunoSelecionado} != null and ${alunoSelecionado} == ${aluno.id}">
-        </option>
-    </select>
-    <br><br>
+        <form th:action="@{/coordenador/listar-processo}" method="get" class="row g-4">
 
-    <label for="filtroRelator">Filtrar por Relator:</label><br>
-    <select id="filtroRelator" name="idRelator">
-        <option value="">Todos os relatores</option>
-        <option th:each="prof : ${listaProfessores}"
-                th:value="${prof.id}"
-                th:text="${prof.usuario.nome}"
-                th:selected="${relatorSelecionado} != null and ${relatorSelecionado} == ${prof.id}">
-        </option>
-    </select>
-    <br><br>
+            <div class="col-md-4">
+                <label for="filtroStatus" class="form-label">Filtrar por Status:</label>
+                <select id="filtroStatus" name="status" class="form-select">
+                    <option value="">Todos os status</option>
+                    <option th:each="stat : ${T(br.edu.ifpb.pautax.domain.enums.StatusProcesso).values()}"
+                            th:value="${stat}"
+                            th:text="${stat}"
+                            th:selected="${statusSelecionado != null and statusSelecionado.name() == stat.name()}">
+                    </option>
+                </select>
+            </div>
 
-    <button type="submit">Buscar</button>
-    <a th:href="@{/coordenador/listar-processo}">Limpar Filtros</a>
-</form>
+            <div class="col-md-4">
+                <label for="filtroAluno" class="form-label">Filtrar por Aluno:</label>
+                <select id="filtroAluno" name="idAluno" class="form-select">
+                    <option value="">Todos os alunos</option>
+                    <option th:each="aluno : ${listaAlunos}"
+                            th:value="${aluno.id}"
+                            th:text="${aluno.usuario.nome}"
+                            th:selected="${alunoSelecionado != null and alunoSelecionado == aluno.id}">
+                    </option>
+                </select>
+            </div>
 
-<hr>
+            <div class="col-md-4">
+                <label for="filtroRelator" class="form-label">Filtrar por Relator:</label>
+                <select id="filtroRelator" name="idRelator" class="form-select">
+                    <option value="">Todos os relatores</option>
+                    <option th:each="prof : ${listaProfessores}"
+                            th:value="${prof.id}"
+                            th:text="${prof.usuario.nome}"
+                            th:selected="${relatorSelecionado != null and relatorSelecionado == prof.id}">
+                    </option>
+                </select>
+            </div>
 
-<h3>Listagem de Processos</h3>
+            <div class="col-12 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/coordenador/listar-processo}" class="btn btn-secondary">Limpar Filtros</a>
+            </div>
 
-<table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Número</th>
-        <th>Assunto</th>
-        <th>Interessado (Aluno)</th>
-        <th>Relator</th>
-        <th>Status</th>
-        <th>Data de Registro</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="proc : ${listaProcessos}"> <td th:text="${proc.id}"></td>
-        <td th:text="${proc.numero}"></td>
-        <td th:text="${proc.assunto.nome}"></td>
-        <td th:text="${proc.interessado.usuario.nome}"></td> <td th:text="${proc.relator != null ? proc.relator.usuario.nome : 'Pendente'}"></td>
-        <td th:text="${proc.statusProcesso}"></td>
-        <td th:text="${#temporals.format(proc.dataRegistro, 'dd/MM/yyyy')}"></td>
-    </tr>
-    <tr th:if="${#lists.isEmpty(listaProcessos)}">
-        <td colspan="7">Nenhum processo encontrado com os filtros selecionados.</td>
-    </tr>
-    </tbody>
-</table>
+        </form>
 
-<br>
-<a th:href="@{/coordenador/home-coordenador}">Voltar para o Início</a>
+        <hr class="my-4">
+
+        <h3>Listagem de Processos</h3>
+
+        <table class="table table-bordered table-striped mt-3 align-middle">
+            <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Assunto</th>
+                <th>Interessado (Aluno)</th>
+                <th>Relator</th>
+                <th>Status</th>
+                <th>Data de Registro</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="proc : ${listaProcessos}">
+                <td th:text="${proc.id}"></td>
+                <td th:text="${proc.numero}"></td>
+                <td th:text="${proc.assunto.nome}"></td>
+                <td th:text="${proc.interessado.usuario.nome}"></td>
+                <td th:text="${proc.relator != null ? proc.relator.usuario.nome : 'Pendente'}"></td>
+                <td th:text="${proc.statusProcesso}"></td>
+                <td th:text="${#temporals.format(proc.dataRegistro, 'dd/MM/yyyy')}"></td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(listaProcessos)}">
+                <td colspan="7" class="text-center fw-bold">
+                    Nenhum processo encontrado com os filtros selecionados.
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <a th:href="@{/coordenador/home-coordenador}" class="btn btn-secondary mt-3">Voltar para o Início</a>
+
+    </div>
+
+</div>
 
 </body>
 </html>
