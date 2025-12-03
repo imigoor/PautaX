@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Processos</title>
+</head>
+<body>
+
+<h3>Cadastrar Novo Processo</h3>
+
+<form th:action="@{/aluno/cadastrar-processo}" method="post" th:object="${processo}" enctype="multipart/form-data">
+
+    <label for="assunto">Assunto:</label><br>
+    <select id="assunto" th:field="*{assunto}" required>
+        <option value="">Selecione um assunto...</option>
+        <option th:each="assunto : ${listaAssuntos}"
+                th:value="${assunto.id}"
+                th:text="${assunto.nome}"> </option>
+    </select>
+    <div th:if="${#fields.hasErrors('assunto')}" th:errors="*{assunto}" style="color:red;"></div>
+    <br><br>
+
+    <label for="arquivoRequerimento">Requerimento (Anexo):</label><br>
+    <input type="file" id="arquivoRequerimento" name="arquivoRequerimento" required>
+    <div th:if="${#fields.hasErrors('requerimento')}" th:errors="*{requerimento}" style="color:red;"></div>
+    <br><br>
+
+    <p th:if="${statusCadastroProcesso}" th:text="${statusCadastroProcesso}" style="color: green;"></p>
+    <button type="submit">Cadastrar</button>
+</form>
+
+<hr>
+
+<h3>Buscar Processos</h3>
+
+<!-- Formulário de filtros -->
+<form th:action="@{/aluno/gerenciar-processo}" method="get">
+
+    <label for="filtroAssunto">Filtrar por Assunto:</label><br>
+    <select id="filtroAssunto" name="assuntoId">
+        <option value="">Todos os assuntos</option>
+        <option th:each="assunto : ${listaAssuntos}"
+                th:value="${assunto.id}"
+                th:text="${assunto.nome}"
+                th:selected="${assuntoId} == ${assunto.id}">
+        </option>
+    </select>
+    <br><br>
+
+    <label for="filtroStatus">Filtrar por Status:</label><br>
+    <select id="filtroStatus" name="status">
+        <option value="">Todos os status</option>
+        <option th:each="stat : ${T(br.edu.ifpb.pautax.domain.enums.StatusProcesso).values()}"
+                th:value="${stat}"
+                th:text="${stat}"
+                th:selected="${status != null and status.name() == stat.name()}"> </option>
+    </select>
+    <br><br>
+
+    <label for="ordenacao">Ordenar por:</label><br>
+    <select id="ordenacao" name="sort">
+        <option value="dataRecepcaoDesc"
+                th:selected="(${sort} == null or ${sort} == 'dataRecepcaoDesc')"> Data de Registro (Mais Recentes Primeiro)
+        </option>
+
+        <option value="dataRecepcaoAsc"
+                th:selected="${sort} == 'dataRecepcaoAsc'"> Data de Registro (Mais Antigos Primeiro)
+        </option>
+    </select>
+    <br><br>
+
+    <button type="submit">Buscar</button>
+    <a th:href="@{/aluno/gerenciar-processo}">Limpar Filtros</a>
+</form>
+
+<hr>
+
+<h3>Listagem de Processos</h3>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Número</th>
+        <th>Assunto</th>
+        <th>Status</th>
+        <th>Data de Registro</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="proc : ${listaProcesso}">
+        <td th:text="${proc.id}"></td>
+        <td th:text="${proc.numero}"></td>
+        <td th:text="${proc.assunto.nome}"></td>
+        <td th:text="${proc.statusProcesso}"></td>
+        <td th:text="${proc.dataRegistro}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(listaProcesso)}">
+        <td colspan="5">Nenhum processo encontrado.</td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

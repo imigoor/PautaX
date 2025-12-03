@@ -2,8 +2,11 @@ package br.edu.ifpb.pautax.api.aluno;
 
 import br.edu.ifpb.pautax.application.useCases.aluno.home.IMostrarHomeUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.ICadastrarProcessoUseCase;
+import br.edu.ifpb.pautax.application.useCases.aluno.processo.listar.IListarProcessoAlunoUseCase;
+import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Usuario;
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class AlunoController {
     private final IMostrarHomeUseCase mostrarHomeUseCase;
 
     private final ICadastrarProcessoUseCase cadastrarProcessoUseCase;
+    private final IListarProcessoAlunoUseCase listarProcessoAlunoUseCase;
 
     /**
      * Página inicial do aluno
@@ -38,6 +42,14 @@ public class AlunoController {
     @GetMapping("/home-aluno")
     public ModelAndView mostrarHomeAluno(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return mostrarHomeUseCase.execute(userDetails);
+    }
+
+    @GetMapping("/gerenciar-processo")
+    public ModelAndView gerenciarProcesso(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                          @RequestParam(value = "status", required = false) StatusProcesso status,
+                                          @RequestParam(value = "assuntoId", required = false) Assunto assunto,
+                                          @RequestParam(value = "sort", required = false) String sort) {
+        return listarProcessoAlunoUseCase.execute(userDetails, status, assunto, sort);
     }
 
     @PostMapping("/cadastrar-processo")
@@ -59,7 +71,7 @@ public class AlunoController {
             model.addAttribute("listaAssuntos", dadosDoUseCase.get("listaAssuntos"));
             model.addAttribute("aluno", dadosDoUseCase.get("aluno"));
 
-            return "aluno/home-aluno";
+            return "aluno/gerenciar-processo";
         }
 
         return cadastrarProcessoUseCase.execute(processo, arquivo, userDetails, rd);
