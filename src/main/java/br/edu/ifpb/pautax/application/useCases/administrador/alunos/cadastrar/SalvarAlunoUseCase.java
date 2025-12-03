@@ -1,6 +1,7 @@
 package br.edu.ifpb.pautax.application.useCases.administrador.alunos.cadastrar;
 
 import br.edu.ifpb.pautax.domain.entities.Aluno;
+import br.edu.ifpb.pautax.domain.entities.Usuario;
 import br.edu.ifpb.pautax.infrastructure.repositories.AlunoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,13 @@ public class SalvarAlunoUseCase implements ISalvarAlunoUseCase{
 
     @Override
     public String execute(Aluno aluno) {
-        Aluno alunoSalvo = alunoRepository.findById(aluno.getId()).orElse(null);
+        Usuario usuario = aluno.getUsuario();
 
-        if (alunoSalvo == null){
-            aluno.getUsuario().setRole(Set.of("ROLE_ALUNO"));
-        }
-        aluno.getUsuario().setSenha(encoder.encode(aluno.getUsuario().getSenha()));
-        usuarioRepository.save(aluno.getUsuario());
+        usuario.setSenha(encoder.encode(aluno.getUsuario().getSenha()));
+
+        usuario.setRole(Set.of("ROLE_ALUNO"));
+
+        usuarioRepository.save(usuario);
         alunoRepository.save(aluno);
 
         return "redirect:/admin/alunos";

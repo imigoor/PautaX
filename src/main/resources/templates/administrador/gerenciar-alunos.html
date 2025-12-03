@@ -15,26 +15,31 @@
     <div>
         <label>Nome:</label>
         <input type="text" th:field="*{usuario.nome}" placeholder="Digite o nome completo" required />
+        <div th:if="${#fields.hasErrors('usuario.nome')}" th:errors="*{usuario.nome}" style="color:red;"></div>
     </div>
 
     <div>
         <label>Telefone:</label>
         <input type="text" th:field="*{usuario.fone}" placeholder="(83) 99999-9999" />
+        <div th:if="${#fields.hasErrors('usuario.fone')}" th:errors="*{usuario.fone}" style="color:red;"></div>
     </div>
 
     <div>
         <label>Login:</label>
         <input type="text" th:field="*{usuario.login}" placeholder="ex: joao@ifpb.edu.br" required />
+        <div th:if="${#fields.hasErrors('usuario.login')}" th:errors="*{usuario.login}" style="color:red;"></div>
     </div>
 
     <div>
         <label>Senha:</label>
         <input type="password" th:field="*{usuario.senha}" placeholder="Digite uma senha" required />
+        <div th:if="${#fields.hasErrors('usuario.senha')}" th:errors="*{usuario.senha}" style="color:red;"></div>
     </div>
 
     <div>
         <label>Matrícula:</label>
         <input type="text" th:field="*{matricula}" placeholder="Ex: 2023123456" required />
+        <div th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}" style="color:red;"></div>
     </div>
 
     <div>

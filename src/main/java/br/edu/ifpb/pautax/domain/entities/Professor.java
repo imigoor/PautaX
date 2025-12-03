@@ -1,23 +1,31 @@
 package br.edu.ifpb.pautax.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Professor extends Usuario{
+public class Professor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private boolean coordenador;
 
+    @NotBlank(message = "A matrícula é obrigatória.")
+    @Size(min = 4, max = 20, message = "A matrícula deve ter entre 4 e 20 caracteres.")
     @Column(nullable = false)
     private String matricula;
+
+    @Valid
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    Usuario usuario;
 
     @ManyToMany(mappedBy = "membros")
     @ToString.Exclude

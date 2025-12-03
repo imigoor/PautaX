@@ -10,36 +10,62 @@
 
     <input type="hidden" th:field="*{id}" />
 
+    <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red;"></div>
+
     <div>
         <label>Data Início:</label>
         <input type="date" th:field="*{dataInicio}" class="form-control" />
+        <div th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}" style="color:red;"></div>
     </div>
     <div>
         <label>Data Fim:</label>
         <input type="date" th:field="*{dataFim}" class="form-control" />
+        <div th:if="${#fields.hasErrors('dataFim')}" th:errors="*{dataFim}" style="color:red;"></div>
     </div>
     <div>
         <label>Descrição:</label>
-        <input type="text" th:field="*{descricao}" placeholder="Ex: Colegiado do Curso de SPI" required />
+        <input type="text" th:field="*{descricao}" placeholder="Ex: Colegiado do Curso de SPI" />
+        <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" style="color:red;"></div>
     </div>
     <div>
         <label>Portaria:</label>
         <input type="text" th:field="*{portaria}" placeholder="Ex: 001/2025-DG" />
+        <div th:if="${#fields.hasErrors('portaria')}" th:errors="*{portaria}" style="color:red;"></div>
     </div>
     <div>
         <label>Curso:</label>
         <input type="text" th:field="*{curso}" placeholder="Ex: Sistemas para Internet" />
+        <div th:if="${#fields.hasErrors('curso')}" th:errors="*{curso}" style="color:red;"></div>
     </div>
     
     <div>
         <label>Membros (Professores):</label>
-        <select th:field="*{membros}" multiple="multiple" size="5">
-            <option th:each="prof : ${todosProfessores}"
-                    th:value="${prof.id}"
-                    th:text="${prof.nome}">
-                Professor
-            </option>
-        </select>
+        
+        <details>
+            <summary class="form-control" style="cursor: pointer; color: #495057;">
+                Clique para selecionar os professores...
+            </summary>
+            
+            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-top: none; padding: 10px; background-color: #fff;">
+                
+                <div th:each="prof : ${todosProfessores}" class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           th:field="*{membros}" 
+                           th:value="${prof.id}" 
+                           th:id="${'prof_' + prof.id}" />
+                    
+                    <label class="form-check-label" 
+                           th:for="${'prof_' + prof.id}" 
+                           th:text="${prof.usuario.nome}">
+                        Nome do Professor
+                    </label>
+                </div>
+                
+            </div>
+        </details>
+        
+        <div th:if="${#fields.hasErrors('membros')}" th:errors="*{membros}" style="color:red;"></div>
     </div>
 
     <div>
@@ -70,9 +96,15 @@
         <td th:text="${#dates.format(col.dataInicio, 'dd/MM/yyyy') + ' - ' + #dates.format(col.dataFim, 'dd/MM/yyyy')}"></td>
         
         <td>
-            <ul>
-                <li th:each="membro : ${col.membros}" th:text="${membro.nome}">Nome Professor</li>
-            </ul>
+            <details>
+                <summary style="cursor: pointer; color: #0056b3; font-weight: bold;">
+                    <span th:text="${#lists.size(col.membros)} + ' membros'">Ver membros</span>
+                </summary>
+
+                <ul style="margin-top: 5px; padding-left: 20px; list-style-type: disc;">
+                    <li th:each="membro : ${col.membros}" th:text="${membro.usuario.nome}">Nome Professor</li>
+                </ul>
+            </details>
         </td>
         
         <td>

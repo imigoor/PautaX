@@ -13,9 +13,28 @@
 <p>Nome: <span th:text="${aluno.usuario.nome}">Nome do Aluno</span></p>
 <p>Matrícula: <span th:text="${aluno.matricula}">000000</span></p>
 
-<ul>
-    <li><a href="/aluno/gerenciar-processo">Gerenciar processos</a></li>
-</ul>
+<h3>Cadastrar Novo Processo</h3>
+
+<form th:action="@{/aluno/cadastrar-processo}" method="post" th:object="${processo}" enctype="multipart/form-data">
+
+    <label for="assunto">Assunto:</label><br>
+    <select id="assunto" th:field="*{assunto}">
+        <option value="">Selecione um assunto...</option>
+        <option th:each="assunto : ${listaAssuntos}"
+                th:value="${assunto.id}"
+                th:text="${assunto.nome}"> </option>
+    </select>
+    <div th:if="${#fields.hasErrors('assunto')}" th:errors="*{assunto}" style="color:red;"></div>
+    <br><br>
+
+    <label for="arquivoRequerimento">Requerimento (Anexo):</label><br>
+    <input type="file" id="arquivoRequerimento" name="arquivoRequerimento">
+    <div th:if="${#fields.hasErrors('requerimento')}" th:errors="*{requerimento}" style="color:red;"></div>
+
+    <br><br>
+    <p th:if="${statusCadastroProcesso}" th:text="${statusCadastroProcesso}" style="color: green;"></p>
+    <button type="submit">Cadastrar</button>
+</form>
 
 <a th:href="@{/logout}">Sair</a>
 </body>
