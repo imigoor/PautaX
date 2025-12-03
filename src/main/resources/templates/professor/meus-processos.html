@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Processos Atribuídos</title>
+    </head>
+<body>
+    <div class="container">
+        <h1>Meus Processos Atribuídos</h1>
+        <p>Aqui estão todos os processos designados a você como relator.</p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nº Processo</th>
+                    <th>Assunto</th>
+                    <th>Aluno Interessado</th>
+                    <th>Data de Distribuição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${processosAtribuidos.isEmpty()}">
+                    <td colspan="4">Você não possui processos atribuídos no momento.</td>
+                </tr>
+                <tr th:each="proc : ${processosAtribuidos}">
+                    <td th:text="${proc.numero}">001/2025</td>
+                    <td th:text="${proc.assunto.nome}">Reabertura de Matrícula</td>
+                    <td th:text="${proc.interessado.usuario.nome}">José da Silva</td>
+                    <td th:text="${#temporals.format(proc.dataDistribuicao, 'dd/MM/yyyy')}">01/11/2025</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <a th:href="@{/professor/home-professor}">Voltar ao Painel</a>
+    </div>
+</body>
+</html>

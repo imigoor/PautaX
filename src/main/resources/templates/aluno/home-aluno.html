@@ -10,8 +10,12 @@
 <p>Seus papéis: <span sec:authentication="principal.authorities"></span></p>
 
 <h3>Informações do Aluno</h3>
-<p>Nome: <span th:text="${aluno.nome}">Nome do Aluno</span></p>
+<p>Nome: <span th:text="${aluno.usuario.nome}">Nome do Aluno</span></p>
 <p>Matrícula: <span th:text="${aluno.matricula}">000000</span></p>
+
+<ul>
+    <li><a href="/aluno/gerenciar-processo">Gerenciar processos</a></li>
+</ul>
 
 <a th:href="@{/logout}">Sair</a>
 </body>

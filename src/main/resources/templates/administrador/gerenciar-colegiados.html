@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Colegiados</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        a { color: black; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h1 class="mb-4">Gerenciar Colegiados</h1>
+
+    <div class="card shadow p-4 mb-5">
+        <h3 class="mb-3">Novo Colegiado</h3>
+
+        <form th:action="@{/admin/colegiados/salvar}" th:object="${colegiado}" method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div th:if="${#fields.hasGlobalErrors()}"
+                 th:each="err : ${#fields.globalErrors()}"
+                 class="alert alert-danger mb-3"
+                 th:text="${err}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Data Início:</label>
+                <input type="date" th:field="*{dataInicio}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('dataInicio')}" class="text-danger" th:errors="*{dataInicio}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Data Fim:</label>
+                <input type="date" th:field="*{dataFim}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('dataFim')}" class="text-danger" th:errors="*{dataFim}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descrição:</label>
+                <input type="text" th:field="*{descricao}" class="form-control" placeholder="Ex: Colegiado do Curso de SPI" />
+                <div th:if="${#fields.hasErrors('descricao')}" class="text-danger" th:errors="*{descricao}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Portaria:</label>
+                <input type="text" th:field="*{portaria}" class="form-control" placeholder="Ex: 001/2025-DG" />
+                <div th:if="${#fields.hasErrors('portaria')}" class="text-danger" th:errors="*{portaria}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Curso:</label>
+                <input type="text" th:field="*{curso}" class="form-control" placeholder="Ex: Sistemas para Internet" />
+                <div th:if="${#fields.hasErrors('curso')}" class="text-danger" th:errors="*{curso}"></div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Membros (Professores):</label>
+
+                <details class="border rounded p-2 bg-white">
+                    <summary class="form-control" style="cursor:pointer;">
+                        Clique para selecionar os professores...
+                    </summary>
+
+                    <div class="border" style="max-height: 200px; overflow-y: auto; padding: 10px;">
+                        <div th:each="prof : ${todosProfessores}" class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   th:field="*{membros}"
+                                   th:value="${prof.id}"
+                                   th:id="${'prof_' + prof.id}" />
+
+                            <label class="form-check-label"
+                                   th:for="${'prof_' + prof.id}"
+                                   th:text="${prof.usuario.nome}">
+                                Nome Professor
+                            </label>
+                        </div>
+                    </div>
+                </details>
+
+                <div th:if="${#fields.hasErrors('membros')}" class="text-danger" th:errors="*{membros}"></div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Salvar</button>
+                <a th:href="@{/admin/colegiados}" class="btn btn-secondary">Cancelar Edição</a>
+            </div>
+        </form>
+    </div>
+
+    <hr/>
+
+    <h3 class="mb-3">Colegiados Cadastrados</h3>
+
+    <table class="table table-striped table-hover shadow">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Curso</th>
+            <th>Vigência</th>
+            <th>Membros</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="col : ${listaDeColegiados}">
+            <td th:text="${col.id}"></td>
+            <td th:text="${col.descricao}"></td>
+            <td th:text="${col.curso}"></td>
+            <td th:text="${#dates.format(col.dataInicio, 'dd/MM/yyyy') + ' - ' + #dates.format(col.dataFim, 'dd/MM/yyyy')}"></td>
+
+            <td>
+                <details>
+                    <summary class="fw-bold" style="cursor:pointer;">
+                        <span th:text="${#lists.size(col.membros)} + ' membros'"></span>
+                    </summary>
+
+                    <ul class="mt-2">
+                        <li th:each="m : ${col.membros}" th:text="${m.usuario.nome}"></li>
+                    </ul>
+                </details>
+            </td>
+
+            <td class="d-flex gap-2">
+                <a class="btn btn-primary btn-sm"
+                   th:href="@{/admin/colegiados/editar/{id}(id=${col.id})}">
+                    Editar
+                </a>
+
+                <form th:action="@{/admin/colegiados/deletar/{id}(id=${col.id})}"
+                      method="post">
+                    <button type="submit"
+                            class="btn btn-sm btn-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir este colegiado?');">
+                        Excluir
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/home-admin}" class="btn btn-dark mt-3">Voltar ao Painel</a>
+
+</div>
+
+</body>
+</html>

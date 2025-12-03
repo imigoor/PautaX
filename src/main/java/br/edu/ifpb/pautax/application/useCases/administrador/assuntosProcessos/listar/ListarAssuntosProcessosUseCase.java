@@ -1,4 +1,4 @@
-package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcesso;
+package br.edu.ifpb.pautax.application.useCases.administrador.assuntosProcessos.listar;
 
 import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.infrastructure.repositories.AssuntoRepository;
