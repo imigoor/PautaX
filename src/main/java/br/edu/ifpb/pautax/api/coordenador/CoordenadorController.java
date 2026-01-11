@@ -6,6 +6,9 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProces
 import br.edu.ifpb.pautax.application.useCases.professor.processos.listar.IListarProcessosAtribuidosUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +32,22 @@ public class CoordenadorController {
     }
 
     @GetMapping("/listar-pendentes")
-    public ModelAndView mostrarDistribuirProcesso() {
-        return listarProcessosPendentesUseCase.execute();
+    public ModelAndView mostrarDistribuirProcesso(@RequestParam(defaultValue="0") int page,
+                                                  @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return listarProcessosPendentesUseCase.execute(pageable);
     }
 
     @GetMapping("/listar-processo")
-    public ModelAndView listarTodosOsProcessos(@RequestParam(value = "status", required = false) StatusProcesso status,
+    public ModelAndView listarTodosOsProcessos(@RequestParam(defaultValue="0") int page,
+                                               @RequestParam(defaultValue = "5") int size,
+                                               @RequestParam(value = "status", required = false) StatusProcesso status,
                                                @RequestParam(value = "idAluno", required = false) Integer idAluno,
                                                @RequestParam(value = "idRelator", required = false) Integer idRelator) {
-        return listarProcessosUseCase.execute(status, idAluno, idRelator);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        return listarProcessosUseCase.execute(status, idAluno, idRelator, pageable);
     }
 
     @PostMapping("/distribuir-processo")
