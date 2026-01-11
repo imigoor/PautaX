@@ -35,7 +35,7 @@
                 <td colspan="4" class="text-center fw-bold">Nenhum processo pendente.</td>
             </tr>
 
-            <tr th:each="proc : ${processosPendentes}">
+            <tr th:each="proc : ${processosPendentes.content}">
                 <td th:text="${proc.numero}"></td>
                 <td th:text="${proc.assunto.nome}"></td>
                 <td th:text="${proc.interessado.usuario.nome}"></td>
@@ -59,6 +59,37 @@
 
             </tbody>
         </table>
+
+        <nav aria-label="Navegação de página" class="mt-3" th:if="${processosPendentes.totalPages > 0}">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${processosPendentes.first} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/coordenador/listar-pendentes(
+                        page=${processosPendentes.number - 1},
+                        size=${processosPendentes.size}
+                    )}">
+                        Anterior
+                    </a>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link"
+                          th:text="${'Página ' + (processosPendentes.number + 1) + ' de ' + processosPendentes.totalPages}">
+                    </span>
+                </li>
+
+                <li class="page-item" th:classappend="${processosPendentes.last} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/coordenador/listar-pendentes(
+                        page=${processosPendentes.number + 1},
+                        size=${processosPendentes.size}
+                    )}">
+                        Próximo
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
         <a th:href="@{/coordenador/home-coordenador}" class="btn btn-secondary mt-3">Voltar</a>
     </div>

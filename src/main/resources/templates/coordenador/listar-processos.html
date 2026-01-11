@@ -82,7 +82,7 @@
             </thead>
             <tbody>
 
-            <tr th:each="proc : ${listaProcessos}">
+            <tr th:each="proc : ${listaProcessos.content}">
                 <td th:text="${proc.id}"></td>
                 <td th:text="${proc.numero}"></td>
                 <td th:text="${proc.assunto.nome}"></td>
@@ -100,6 +100,44 @@
 
             </tbody>
         </table>
+
+        <nav aria-label="Navegação de página" class="mt-3" th:if="${listaProcessos.totalPages > 0}">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${listaProcessos.first} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/coordenador/listar-processo(
+                       page=${listaProcessos.number - 1},
+                       size=${listaProcessos.size},
+                       status=${statusSelecionado},
+                       idAluno=${alunoSelecionado},
+                       idRelator=${relatorSelecionado}
+                    )}">
+                        Anterior
+                    </a>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link"
+                          th:text="${'Página ' + (listaProcessos.number + 1) + ' de ' + listaProcessos.totalPages}">
+                    </span>
+                </li>
+
+                <li class="page-item" th:classappend="${listaProcessos.last} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/coordenador/listar-processo(
+                       page=${listaProcessos.number + 1},
+                       size=${listaProcessos.size},
+                       status=${statusSelecionado},
+                       idAluno=${alunoSelecionado},
+                       idRelator=${relatorSelecionado}
+                    )}">
+                        Próximo
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
 
         <a th:href="@{/coordenador/home-coordenador}" class="btn btn-secondary mt-3">Voltar para o Início</a>
 
