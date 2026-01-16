@@ -54,5 +54,6 @@ public class Processo {
     private Reuniao reuniao;
 
     @OneToMany(mappedBy = "processo")
+    @ToString.Exclude
     private List<Voto> votos;
 }
