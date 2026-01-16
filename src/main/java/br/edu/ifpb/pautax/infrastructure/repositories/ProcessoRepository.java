@@ -15,6 +15,6 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer>, Jp
 
     List<Processo> findByRelator(Professor findByRelator);
     Page<List<Processo>> findByRelatorIsNull(Pageable pageable);
-
+    List<Processo> findByReuniaoIsNullAndRelatorIdIsNotNull();
     List<Processo> findAllByInteressado(Aluno aluno);
 }

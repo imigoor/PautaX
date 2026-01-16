@@ -4,6 +4,7 @@
     import jakarta.validation.Valid;
     import jakarta.validation.constraints.*;
     import lombok.Data;
+    import lombok.ToString;
 
     import java.util.List;
 
@@ -25,5 +26,6 @@
         private String matricula;
 
         @OneToMany(mappedBy = "interessado")
+        @ToString.Exclude
         private List<Processo> processos;
     }
