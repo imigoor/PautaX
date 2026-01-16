@@ -24,7 +24,6 @@ public class DeletarSessaoUseCase implements IDeletarSessaoUseCase {
                 .orElseThrow(() -> new IllegalArgumentException("Reunião não encontrada"));
 
         List<Processo> processosDaPauta = reuniao.getProcessos();
-
         if (processosDaPauta != null) {
             for (Processo processo : processosDaPauta) {
                 processo.setReuniao(null);
