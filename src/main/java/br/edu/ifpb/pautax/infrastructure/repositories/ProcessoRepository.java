@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface ProcessoRepository extends JpaRepository<Processo, Integer>, JpaSpecificationExecutor<Processo> {
 
     List<Processo> findByRelator(Professor findByRelator);
-    Page<List<Processo>> findByRelatorIsNull(Pageable pageable);
+    Page<Processo> findByRelatorIsNull(Pageable pageable);
     List<Processo> findByReuniaoIsNullAndRelatorIdIsNotNull();
     List<Processo> findAllByInteressado(Aluno aluno);
 }
