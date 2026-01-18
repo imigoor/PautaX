@@ -101,6 +101,16 @@
     <div class="card shadow p-4 mb-5">
         <h3 class="mb-3">Listagem de Processos</h3>
 
+        <div th:if="${mensagemSucesso}" th:text="${mensagemSucesso}"
+             class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div th:if="${mensagemErro}" th:text="${mensagemErro}"
+             class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
@@ -109,6 +119,7 @@
                 <th>Assunto</th>
                 <th>Status</th>
                 <th>Data de Registro</th>
+                <th>Ações</th>
             </tr>
             </thead>
 
@@ -119,10 +130,34 @@
                 <td th:text="${proc.assunto.nome}"></td>
                 <td th:text="${proc.statusProcesso}"></td>
                 <td th:text="${proc.dataRegistro}"></td>
+                <td>
+                    <div th:if="${proc.statusProcesso.name() == 'CRIADO'}">
+                        <form th:action="@{/aluno/upload-requerimento/{id}(id=${proc.id})}"
+                              method="post"
+                              enctype="multipart/form-data"
+                              class="row g-2">
+                            <div class="col-auto">
+                                <input type="file" name="arquivoRequerimento"
+                                       class="form-control form-control-sm"
+                                       accept="application/pdf">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    Atualizar Requerimento
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <span th:unless="${proc.statusProcesso.name() == 'CRIADO'}"
+                          class="text-muted small fst-italic">
+                        <i class="bi bi-lock-fill"></i> Edição bloqueada. O requerimento só pode ser alterado no status CRIADO.
+                    </span>
+                </td>
             </tr>
 
             <tr th:if="${#lists.isEmpty(listaProcesso)}">
-                <td colspan="5" class="text-center text-muted">Nenhum processo encontrado.</td>
+                <td colspan="6" class="text-center text-muted">Nenhum processo encontrado.</td>
             </tr>
             </tbody>
         </table>

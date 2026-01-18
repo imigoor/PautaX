@@ -23,7 +23,7 @@ public class ListarProcessosPendentesUseCase implements IListarProcessosPendente
     public ModelAndView execute(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("coordenador/listar-nao-distribuidos");
 
-        Page<List<Processo>> processos = processoRepository.findByRelatorIsNull(pageable);
+        Page<Processo> processos = processoRepository.findByRelatorIsNull(pageable);
 
         modelAndView.addObject("processosPendentes", processos);
         modelAndView.addObject("listaProfessores", professorRepository.findAllMembrosDeColegiado());
