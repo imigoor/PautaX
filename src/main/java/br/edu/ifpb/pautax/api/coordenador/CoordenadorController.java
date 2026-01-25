@@ -1,18 +1,15 @@
 package br.edu.ifpb.pautax.api.coordenador;
 
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.cadastrar.ICriarSessaoUseCase;
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.deletar.IDeletarSessaoUseCase;
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.listar.IListarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar.IListarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir.IDistribuirProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarPendentes.IListarProcessosPendentesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProcesso.IListarProcessosUseCase;
-import br.edu.ifpb.pautax.application.useCases.professor.processos.listar.IListarProcessosAtribuidosUseCase;
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
-import br.edu.ifpb.pautax.infrastructure.repositories.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

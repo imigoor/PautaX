@@ -1,4 +1,4 @@
-package br.edu.ifpb.pautax.application.useCases.administrador.sessao.cadastrar;
+package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar;
 
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
 

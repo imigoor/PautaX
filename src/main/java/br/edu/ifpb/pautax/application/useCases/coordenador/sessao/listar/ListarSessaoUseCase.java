@@ -1,4 +1,4 @@
-package br.edu.ifpb.pautax.application.useCases.administrador.sessao.listar;
+package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar;
 
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
