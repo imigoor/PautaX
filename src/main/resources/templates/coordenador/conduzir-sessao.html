@@ -27,12 +27,19 @@
                 </div>
 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item pauta-item"
+                    <li class="list-group-item p-0"
                         th:each="proc : ${sessao.processos}"
-                        th:classappend="${proc.id == processoSelecionado?.id} ? 'active'"
-                        th:href="@{/coordenador/sessao/{id}/processo/{pid}(id=${sessao.id}, pid=${proc.id})}">
-                        <div class="fw-bold" th:text="${'Processo nº ' + proc.numero}"></div>
-                        <small class="text-muted" th:text="${proc.assunto.nome}"></small>
+                        th:classappend="${proc.id == processoSelecionado?.id} ? 'active'">
+
+                        <a class="d-block pauta-item text-decoration-none text-dark p-3"
+                           th:href="@{/coordenador/conduzir-sessao/{id}/processo/{pid}(id=${sessao.id}, pid=${proc.id})}">
+
+                            <div class="fw-bold"
+                                 th:text="${'Processo nº ' + proc.numero}"></div>
+
+                            <small class="text-muted"
+                                   th:text="${proc.assunto.nome}"></small>
+                        </a>
                     </li>
 
                     <li class="list-group-item text-muted text-center"
@@ -42,7 +49,7 @@
                 </ul>
             </div>
 
-            <form th:action="@{/coordenador/sessao/{id}/finalizar(id=${sessao.id})}" method="post">
+            <form th:action="@{/coordenador/conduzir-sessao/{id}/finalizar(id=${sessao.id})}" method="post">
                 <button type="submit"
                         class="btn btn-danger w-100"
                         onclick="return confirm('Tem certeza que deseja encerrar a sessão?');">
