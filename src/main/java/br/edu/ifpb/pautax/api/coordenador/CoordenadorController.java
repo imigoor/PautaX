@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/coordenador")
@@ -96,8 +97,14 @@ public class CoordenadorController {
     }
 
     @PostMapping("/iniciar-sessao/{id}")
-    public String iniciarSessao(@PathVariable("id") Integer idReuniao) {
-        return iniciarSessaoUseCase.execute(idReuniao);
+    public String iniciarSessao(@PathVariable("id") Integer idReuniao, RedirectAttributes redirectAttributes) {
+
+        try {
+            return iniciarSessaoUseCase.execute(idReuniao);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            return "redirect:/coordenador/listar-sessoes";
+        }
     }
 
     @GetMapping("/conduzir-sessao/{id}")
