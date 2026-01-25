@@ -20,8 +20,6 @@ public class Reuniao {
     private int id;
 
     @NotNull(message = "A data da reunião é obrigatória.")
-    @Future(message = "A data deve estar no futuro.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataReuniao;
 
@@ -42,7 +40,6 @@ public class Reuniao {
     @ToString.Exclude
     private List<Processo> processos;
 
-    @NotEmpty(message = "A pauta não pode estar vazia. Selecione pelo menos um processo.")
     @Transient
     private List<Integer> processosIds;
 }

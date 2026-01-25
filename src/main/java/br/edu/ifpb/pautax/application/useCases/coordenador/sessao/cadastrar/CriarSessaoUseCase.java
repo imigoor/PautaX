@@ -1,6 +1,7 @@
 package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar;
 
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,23 +18,30 @@ public class CriarSessaoUseCase implements ICriarSessaoUseCase {
 
     private final ReuniaoRepository reuniaoRepository;
     private final ProcessoRepository processoRepository;
+    private final ColegiadoRepository colegiadoRepository;
 
     @Override
     @Transactional
-    public String execute(Reuniao sessao) {
+    public String execute(CriarSessaoFormDTO form) {
+
+        Reuniao sessao = new Reuniao();
+        sessao.setDataReuniao(form.getDataReuniao());
         sessao.setStatus(StatusReuniao.PROGRAMADA);
+        sessao.setColegiado(
+                colegiadoRepository.findById(form.getColegiadoId())
+                        .orElseThrow(() -> new IllegalArgumentException("Colegiado inválido"))
+        );
 
         Reuniao sessaoSalva = reuniaoRepository.save(sessao);
-        List<Integer> idsDaPauta = sessao.getProcessosIds();
 
-        if (idsDaPauta != null && !idsDaPauta.isEmpty()) {
-            List<Processo> processosDaPauta = processoRepository.findAllById(idsDaPauta);
+        List<Processo> processosDaPauta =
+                processoRepository.findAllById(form.getProcessosIds());
 
-            for (Processo processo : processosDaPauta) {
-                processo.setReuniao(sessaoSalva);
-                processoRepository.save(processo);
-            }
+        for (Processo processo : processosDaPauta) {
+            processo.setReuniao(sessaoSalva);
         }
+
+        processoRepository.saveAll(processosDaPauta);
 
         return "redirect:/coordenador/listar-sessoes";
     }
