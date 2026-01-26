@@ -1,13 +1,19 @@
 package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostrar;
 
+import br.edu.ifpb.pautax.application.dto.VotoProfessorDTO;
 import br.edu.ifpb.pautax.domain.entities.Processo;
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.domain.entities.Voto;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +40,31 @@ public class MostrarProcessoSessaoUseCase implements IMostrarProcessoSessaoUseCa
             throw new IllegalStateException("Processo não pertence a esta sessão");
         }
 
+        sessao.getColegiado().getMembros().size();
         processo.getVotos().size();
+
+        Map<Integer, Voto> votosPorProfessor = processo.getVotos()
+                .stream()
+                .collect(Collectors.toMap(
+                        v -> v.getProfessor().getId(),
+                        v -> v
+                ));
+
+        List<VotoProfessorDTO> votosDTO = sessao.getColegiado()
+                .getMembros()
+                .stream()
+                .map(prof -> {
+                    Voto voto = votosPorProfessor.get(prof.getId());
+                    return new VotoProfessorDTO(
+                            prof.getUsuario().getNome(),
+                            voto != null ? voto.getVoto() : null
+                    );
+                })
+                .collect(Collectors.toList());
 
         mv.addObject("sessao", sessao);
         mv.addObject("processoSelecionado", processo);
-        mv.addObject("votos", processo.getVotos());
+        mv.addObject("votos", votosDTO);
 
         return mv;
     }

@@ -111,21 +111,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="voto : ${votos}">
-                            <td th:text="${voto.professor.usuario.nome}"></td>
-                            <td>
-                                <span class="badge"
-                                      th:classappend="${voto.voto.name() == 'COM_RELATOR' ? 'bg-success' : 'bg-danger'}"
-                                      th:text="${voto.voto}">
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr th:if="${#lists.isEmpty(votos)}">
-                            <td colspan="2" class="text-center text-muted">
-                                Nenhum voto registrado ainda.
-                            </td>
-                        </tr>
+                            <tr th:each="voto : ${votos}">
+                                <td th:text="${voto.nomeProfessor}"></td>
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="${voto.voto == null ? 'bg-secondary' :
+                                                           voto.voto.name() == 'COM_RELATOR' ? 'bg-success' : 'bg-danger'}"
+                                          th:text="${voto.voto != null ? voto.voto : 'PENDENTE'}">
+                                    </span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
