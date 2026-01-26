@@ -1,6 +1,7 @@
 package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar;
 
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class CriarSessaoUseCase implements ICriarSessaoUseCase {
 
         for (Processo processo : processosDaPauta) {
             processo.setReuniao(sessaoSalva);
+            processo.setStatusProcesso(StatusProcesso.EM_PAUTA);
         }
 
         processoRepository.saveAll(processosDaPauta);
