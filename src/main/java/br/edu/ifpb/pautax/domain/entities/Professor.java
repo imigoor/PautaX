@@ -4,13 +4,15 @@ import br.edu.ifpb.pautax.domain.validators.matricula.IMatricula;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Data
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

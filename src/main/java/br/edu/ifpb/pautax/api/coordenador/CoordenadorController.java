@@ -1,18 +1,18 @@
 package br.edu.ifpb.pautax.api.coordenador;
 
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.cadastrar.ICriarSessaoUseCase;
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.deletar.IDeletarSessaoUseCase;
-import br.edu.ifpb.pautax.application.useCases.administrador.sessao.listar.IListarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir.IDistribuirProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarPendentes.IListarProcessosPendentesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProcesso.IListarProcessosUseCase;
-import br.edu.ifpb.pautax.application.useCases.professor.processos.listar.IListarProcessosAtribuidosUseCase;
-import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.iniciar.IIniciarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar.IListarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.mostrar.IMostrarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostrar.IMostrarProcessoSessaoUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
-import br.edu.ifpb.pautax.infrastructure.repositories.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/coordenador")
@@ -35,6 +36,9 @@ public class CoordenadorController {
     private final ICriarSessaoUseCase criarSessaoUseCase;
     private final IListarSessaoUseCase listarSessaoUseCase;
     private final IDeletarSessaoUseCase deletarSessaoUseCase;
+    private final IIniciarSessaoUseCase iniciarSessaoUseCase;
+    private final IMostrarSessaoUseCase mostrarSessaoUseCase;
+    private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
 
     @GetMapping("/home-coordenador")
     public ModelAndView mostrarHomeCoordenador() {
@@ -67,7 +71,7 @@ public class CoordenadorController {
     }
 
     @PostMapping("/criar-sessao")
-    public String criarSessao(@Valid @ModelAttribute("novaReuniao") Reuniao sessao,
+    public String criarSessao(@Valid @ModelAttribute("novaReuniao") CriarSessaoFormDTO sessao,
                               BindingResult bindingResult,
                               Model model)
     {
@@ -90,5 +94,27 @@ public class CoordenadorController {
     public String deletarSessao(@PathVariable("id") Integer idReuniao)
     {
         return deletarSessaoUseCase.execute(idReuniao);
+    }
+
+    @PostMapping("/iniciar-sessao/{id}")
+    public String iniciarSessao(@PathVariable("id") Integer idReuniao, RedirectAttributes redirectAttributes) {
+
+        try {
+            return iniciarSessaoUseCase.execute(idReuniao);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            return "redirect:/coordenador/listar-sessoes";
+        }
+    }
+
+    @GetMapping("/conduzir-sessao/{id}")
+    public ModelAndView mostrarConduzir(@PathVariable("id") Integer idReuniao) {
+        return mostrarSessaoUseCase.execute(idReuniao);
+    }
+
+    @GetMapping("/conduzir-sessao/{id}/processo/{pid}")
+    public ModelAndView mostrarProcessoDaSessao(@PathVariable("id") Integer idSessao,
+                                                @PathVariable("pid") Integer idProcesso) {
+        return mostrarProcessoSessaoUseCase.execute(idSessao, idProcesso);
     }
 }
