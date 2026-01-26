@@ -1,4 +1,4 @@
-package br.edu.ifpb.pautax.application.useCases.administrador.sessao.deletar;
+package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar;
 
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;

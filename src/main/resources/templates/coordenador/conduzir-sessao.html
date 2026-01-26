@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Conduzir Sessão</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        a { text-decoration: none; color: black; }
+        a:hover { text-decoration: underline; }
+        .pauta-item:hover { background-color: #f1f1f1; cursor: pointer; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Sessão de Julgamento em Andamento</h1>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card shadow mb-3">
+                <div class="card-header fw-bold">
+                    Pauta da Sessão
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-0"
+                        th:each="proc : ${sessao.processos}"
+                        th:classappend="${proc.id == processoSelecionado?.id} ? 'active'">
+
+                        <a class="d-block pauta-item text-decoration-none text-dark p-3"
+                           th:href="@{/coordenador/conduzir-sessao/{id}/processo/{pid}(id=${sessao.id}, pid=${proc.id})}">
+
+                            <div class="fw-bold"
+                                 th:text="${'Processo nº ' + proc.numero}"></div>
+
+                            <small class="text-muted"
+                                   th:text="${proc.assunto.nome}"></small>
+                        </a>
+                    </li>
+
+                    <li class="list-group-item text-muted text-center"
+                        th:if="${#lists.isEmpty(sessao.processos)}">
+                        Nenhum processo na pauta
+                    </li>
+                </ul>
+            </div>
+
+            <form th:action="@{/coordenador/conduzir-sessao/{id}/finalizar(id=${sessao.id})}" method="post">
+                <button type="submit"
+                        class="btn btn-danger w-100"
+                        onclick="return confirm('Tem certeza que deseja encerrar a sessão?');">
+                    Encerrar Sessão
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4" th:if="${processoSelecionado != null}">
+                <div class="card-header fw-bold">
+                    Processo em Apreciação
+                </div>
+
+                <div class="card-body">
+                    <p><strong>Número:</strong> <span th:text="${processoSelecionado.numero}"></span></p>
+                    <p><strong>Solicitante:</strong> <span th:text="${processoSelecionado.interessado.usuario.nome}"></span></p>
+                    <p><strong>Assunto:</strong> <span th:text="${processoSelecionado.assunto.nome}"></span></p>
+                    <p><strong>Relator:</strong> <span th:text="${processoSelecionado.relator.usuario.nome}"></span></p>
+
+                    <hr/>
+
+                    <p><strong>Parecer do Relator:</strong></p>
+                    <p class="border rounded p-2 bg-light"
+                       th:text="${processoSelecionado.parecer != null ? 'Parecer registrado.' : 'Parecer ainda não registrado.'}">
+                    </p>
+
+
+                    <p>
+                        <strong>Decisão do Relator:</strong>
+                        <span class="badge bg-info"
+                              th:text="${processoSelecionado.decisaoRelator != null ? processoSelecionado.decisaoRelator : 'PENDENTE'}">
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-info text-center"
+                 th:if="${processoSelecionado == null}">
+                Selecione um processo da pauta para iniciar o julgamento.
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow mb-3" th:if="${processoSelecionado != null}">
+                <div class="card-header fw-bold">
+                    Votos dos Professores
+                </div>
+
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-secondary">
+                        <tr>
+                            <th>Professor</th>
+                            <th>Voto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="voto : ${votos}">
+                                <td th:text="${voto.nomeProfessor}"></td>
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="${voto.voto == null ? 'bg-secondary' :
+                                                           voto.voto.name() == 'COM_RELATOR' ? 'bg-success' : 'bg-danger'}"
+                                          th:text="${voto.voto != null ? voto.voto : 'PENDENTE'}">
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <form th:if="${processoSelecionado != null}"
+                  th:action="@{/coordenador/sessao/{sid}/processo/{pid}/concluir(sid=${sessao.id}, pid=${processoSelecionado.id})}"
+                  method="post">
+
+                <button type="submit"
+                        class="btn btn-success w-100"
+                        onclick="return confirm('Concluir a votação deste processo?');">
+                    Concluir Votação
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <a th:href="@{/coordenador/listar-sessoes}" class="btn btn-secondary mt-4">
+        Voltar à listagem
+    </a>
+</div>
+
+</body>
+</html>
