@@ -10,6 +10,7 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.iniciar.IInici
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar.IListarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.mostrar.IMostrarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostrar.IMostrarProcessoSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.votacao.concluir.IConcluirVotacaoUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class CoordenadorController {
     private final IIniciarSessaoUseCase iniciarSessaoUseCase;
     private final IMostrarSessaoUseCase mostrarSessaoUseCase;
     private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
+    private final IConcluirVotacaoUseCase concluirVotacaoUseCase;
 
     @GetMapping("/home-coordenador")
     public ModelAndView mostrarHomeCoordenador() {
@@ -116,5 +118,18 @@ public class CoordenadorController {
     public ModelAndView mostrarProcessoDaSessao(@PathVariable("id") Integer idSessao,
                                                 @PathVariable("pid") Integer idProcesso) {
         return mostrarProcessoSessaoUseCase.execute(idSessao, idProcesso);
+    }
+
+    @PostMapping("/conduzir-sessao/{id}/processo/{pid}/concluir")
+    public String concluirVotacaoProcesso(@PathVariable("id") Integer idReuniao, @PathVariable("pid") Integer idProcesso, RedirectAttributes redirectAttributes) {
+        try {
+            concluirVotacaoUseCase.execute(idProcesso);
+            redirectAttributes.addFlashAttribute("sucesso", "Votação concluída com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            return "redirect:/coordenador/listar-sessoes";
+        }
+
+        return "redirect:/coordenador/conduzir-sessao/" + idReuniao;
     }
 }
