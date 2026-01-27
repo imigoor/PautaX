@@ -23,8 +23,8 @@ public class Reuniao {
     @Enumerated(EnumType.STRING)
     private StatusReuniao status;
 
-    @Column(name = "ata", columnDefinition = "bytea")
-    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @ToString.Exclude
     private byte[] ata;
 
     @NotNull(message = "Você deve selecionar um colegiado.")
