@@ -3,6 +3,7 @@ package br.edu.ifpb.pautax.api.coordenador;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir.IDistribuirProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarPendentes.IListarProcessosPendentesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProcesso.IListarProcessosUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.reuniao.IListarReunioesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
@@ -11,6 +12,7 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar.IListar
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.mostrar.IMostrarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostrar.IMostrarProcessoSessaoUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
+import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +41,7 @@ public class CoordenadorController {
     private final IIniciarSessaoUseCase iniciarSessaoUseCase;
     private final IMostrarSessaoUseCase mostrarSessaoUseCase;
     private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
+    private final IListarReunioesUseCase listarReunioesUseCase;
 
     @GetMapping("/home-coordenador")
     public ModelAndView mostrarHomeCoordenador() {
@@ -116,5 +119,19 @@ public class CoordenadorController {
     public ModelAndView mostrarProcessoDaSessao(@PathVariable("id") Integer idSessao,
                                                 @PathVariable("pid") Integer idProcesso) {
         return mostrarProcessoSessaoUseCase.execute(idSessao, idProcesso);
+    }
+
+    @GetMapping("/reunioes")
+    public ModelAndView consultarReunioes(@RequestParam(value = "status", required = false) StatusReuniao status) {
+        // Define qual página HTML vai abrir
+        ModelAndView mv = new ModelAndView("coordenador/consultar-reunioes");
+
+        // Adiciona a lista de reuniões (filtrada ou não)
+        mv.addObject("reunioes", listarReunioesUseCase.execute(status));
+
+        // Adiciona o status selecionado para manter o filtro marcado na tela
+        mv.addObject("statusSelecionado", status);
+
+        return mv;
     }
 }
