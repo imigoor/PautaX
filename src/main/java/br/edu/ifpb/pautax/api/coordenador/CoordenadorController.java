@@ -122,14 +122,10 @@ public class CoordenadorController {
     }
 
     @GetMapping("/reunioes")
-    public ModelAndView consultarReunioes(@RequestParam(value = "status", required = false) StatusReuniao status) {
-        // Define qual página HTML vai abrir
+    public ModelAndView consultarReunioes(@RequestParam(value = "status", required = false) StatusReuniao status) {        
         ModelAndView mv = new ModelAndView("coordenador/consultar-reunioes");
-
-        // Adiciona a lista de reuniões (filtrada ou não)
-        mv.addObject("reunioes", listarReunioesUseCase.execute(status));
-
-        // Adiciona o status selecionado para manter o filtro marcado na tela
+        
+        mv.addObject("reunioes", listarReunioesUseCase.execute(status));        
         mv.addObject("statusSelecionado", status);
 
         return mv;
