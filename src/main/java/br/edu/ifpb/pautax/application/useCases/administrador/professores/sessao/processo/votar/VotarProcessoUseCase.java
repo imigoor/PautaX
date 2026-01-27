@@ -22,7 +22,8 @@ public class VotarProcessoUseCase implements IVotarProcessoUseCase {
     @Override
     public String executar(int processoId,
                            int professorId,
-                           TipoVoto tipoVoto) {
+                           TipoVoto tipoVoto,
+                           String justificativa) {
 
         Processo processo = processoRepository.findById(processoId)
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
@@ -41,7 +42,7 @@ public class VotarProcessoUseCase implements IVotarProcessoUseCase {
         voto.setProfessor(professor);
         voto.setProcesso(processo);
         voto.setVoto(tipoVoto);
-//        voto.setJustificativa(justificativa);
+        voto.setJustificativa(justificativa);
         voto.setAusente(false);
 
         votoRepository.save(voto);

@@ -7,5 +7,6 @@ public interface IVotarProcessoUseCase {
     @Transactional
     String executar(int processoId,
                   int professorId,
-                  TipoVoto tipoVoto);
+                  TipoVoto tipoVoto,
+                    String justificativa);
 }

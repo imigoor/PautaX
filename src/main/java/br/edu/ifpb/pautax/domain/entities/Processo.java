@@ -24,14 +24,14 @@ public class Processo {
 
     @Lob
     @ToString.Exclude
-    private byte[] parecer;
-
-    @Lob
-    @ToString.Exclude
     private byte[] requerimento;
 
     @Enumerated(EnumType.STRING)
     private TipoDecisao decisaoRelator;
+
+    @Lob
+    @Column(nullable = true)
+    private String justificativaRelator;
 
     @Enumerated(EnumType.STRING)
     private StatusProcesso statusProcesso;

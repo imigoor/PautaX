@@ -67,10 +67,14 @@ public class ProfessorController {
     }
 
     @PostMapping("/visualizar-sessao/{sid}/votar/{pid}")
-    public String votarProcesso(@PathVariable("sid") int sid, @PathVariable("pid") int pid, @RequestParam("voto") TipoVoto tipoVoto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public String votarProcesso(@PathVariable("sid") int sid,
+                                @PathVariable("pid") int pid,
+                                @RequestParam("voto") TipoVoto tipoVoto,
+                                @RequestParam("justificativa") String justificativa,
+                                @AuthenticationPrincipal CustomUserDetails userDetails) {
         Usuario usuario = userDetails.getUsuario();
 
-        return votarProcessoUseCase.executar(pid, usuario.getId(), tipoVoto);
+        return votarProcessoUseCase.executar(pid, usuario.getId(), tipoVoto, justificativa);
     }
 
     @GetMapping("/processo/{id}/parecer")
