@@ -43,6 +43,8 @@ public class MostrarProcessoSessaoUseCase implements IMostrarProcessoSessaoUseCa
         sessao.getColegiado().getMembros().size();
         processo.getVotos().size();
 
+        int idRelator = processo.getRelator().getId();
+
         Map<Integer, Voto> votosPorProfessor = processo.getVotos()
                 .stream()
                 .collect(Collectors.toMap(
@@ -53,6 +55,7 @@ public class MostrarProcessoSessaoUseCase implements IMostrarProcessoSessaoUseCa
         List<VotoProfessorDTO> votosDTO = sessao.getColegiado()
                 .getMembros()
                 .stream()
+                .filter(prof -> !(prof.getId() == idRelator))
                 .map(prof -> {
                     Voto voto = votosPorProfessor.get(prof.getId());
                     return new VotoProfessorDTO(

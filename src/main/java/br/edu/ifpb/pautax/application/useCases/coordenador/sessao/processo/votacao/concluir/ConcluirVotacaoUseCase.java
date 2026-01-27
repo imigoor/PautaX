@@ -7,6 +7,7 @@ import br.edu.ifpb.pautax.domain.enums.TipoVoto;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class ConcluirVotacaoUseCase implements IConcluirVotacaoUseCase{
     private final ProcessoRepository processoRepository;
 
     @Override
+    @Transactional
     public String execute(Integer idProcesso) {
         Processo processo = processoRepository.findById(idProcesso)
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
@@ -38,13 +40,13 @@ public class ConcluirVotacaoUseCase implements IConcluirVotacaoUseCase{
 
         TipoDecisao decisaoFinal;
 
-        if (votosDivergentes > votosComRelator) {
+        if (votosDivergentes >= votosComRelator) {
             decisaoFinal = inverterDecisao(processo.getDecisaoRelator());
         } else {
             decisaoFinal = processo.getDecisaoRelator();
         }
 
-        processo.setDecisaoRelator(decisaoFinal);
+        processo.setDecisaoFinal(decisaoFinal);
         processo.setStatusProcesso(StatusProcesso.JULGADO);
 
         processoRepository.save(processo);

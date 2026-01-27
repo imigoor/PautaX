@@ -36,6 +36,10 @@ public class Processo {
     @Enumerated(EnumType.STRING)
     private StatusProcesso statusProcesso;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private TipoDecisao decisaoFinal;
+
     @NotNull(message = "Selecione um assunto válido.")
     @ManyToOne
     @JoinColumn(name = "assunto_id")

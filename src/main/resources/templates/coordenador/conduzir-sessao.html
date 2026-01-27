@@ -53,16 +53,25 @@
                         </a>
 
                         <!-- Processo JULGADO -->
-                        <a th:if="${proc.statusProcesso.name() == 'JULGADO'}"
-                           class="d-block pauta-item text-decoration-none text-muted p-3"
-                           href="#">
+                        <div th:if="${proc.statusProcesso.name() == 'JULGADO'}"
+                             class="d-block pauta-item text-muted p-3">
 
                             <div class="fw-bold"
-                                 th:text="${'Processo nº ' + proc.numero}"></div>
+                                 th:text="${'Processo nº ' + proc.numero}">
+                            </div>
 
-                            <small class="text-muted"
-                                   th:text="${proc.assunto.nome + ' (concluído)'}"></small>
-                        </a>
+                            <small class="d-block"
+                                   th:text="${proc.assunto.nome + ' (concluído)'}">
+                            </small>
+
+                            <span class="badge mt-2"
+                                  th:classappend="${proc.decisaoFinal.name() == 'DEFERIMENTO'
+                           ? 'bg-success'
+                           : 'bg-danger'}"
+                                  th:text="${proc.decisaoFinal}">
+                            </span>
+                        </div>
+
 
                     </li>
 
