@@ -1,10 +1,14 @@
 package br.edu.ifpb.pautax.api.professor;
 
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.listar.IListarSessoesProfessorUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.mostrar.IvisualizarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.processo.visualizar.IVisualizarProcessoVotacaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.processo.votar.IVotarProcessoUseCase;
+import br.edu.ifpb.pautax.domain.enums.TipoVoto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ifpb.pautax.application.useCases.professor.processos.listar.IListarProcessosAtribuidosUseCase;
@@ -19,6 +23,10 @@ import lombok.RequiredArgsConstructor;
 public class ProfessorController {
 
     private final IListarProcessosAtribuidosUseCase listarProcessosAtribuidosUseCase;
+    private final IListarSessoesProfessorUseCase listarSessoesProfessorUseCase;
+    private final IvisualizarSessaoUseCase visualizarSessaoUseCase;
+    private final IVisualizarProcessoVotacaoUseCase  visualizarProcessoVotacaoUseCase;
+    private final IVotarProcessoUseCase votarProcessoUseCase;
 
     @GetMapping("/home-professor")
     public ModelAndView mostrarHomeProfessor() {
@@ -31,5 +39,27 @@ public class ProfessorController {
         Usuario professorLogado = userDetails.getUsuario();
 
         return listarProcessosAtribuidosUseCase.execute(professorLogado);
+    }
+
+    @GetMapping("/listar-sessoes")
+    public ModelAndView listarSessoes() {
+        return listarSessoesProfessorUseCase.execute();
+    }
+
+    @GetMapping("/visualizar-sessao/{id}")
+    public ModelAndView visualizarVotacao(@PathVariable Integer id) {
+        return visualizarSessaoUseCase.execute(id);
+    }
+
+    @GetMapping("/visualizar-sessao/{sid}/processo/{pid}")
+    public ModelAndView visualizarProcessoVotacao(@PathVariable Integer pid) {
+        return visualizarProcessoVotacaoUseCase.execute(pid);
+    }
+
+    @PostMapping("/visualizar-sessao/{sid}/votar/{pid}")
+    public String votarProcesso(@PathVariable("sid") int sid, @PathVariable("pid") int pid, @RequestParam("voto") TipoVoto tipoVoto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Usuario usuario = userDetails.getUsuario();
+
+        return votarProcessoUseCase.executar(pid, usuario.getId(), tipoVoto);
     }
 }

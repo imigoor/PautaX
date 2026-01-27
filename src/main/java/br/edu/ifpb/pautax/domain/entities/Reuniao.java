@@ -2,12 +2,9 @@ package br.edu.ifpb.pautax.domain.entities;
 
 import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -26,8 +23,8 @@ public class Reuniao {
     @Enumerated(EnumType.STRING)
     private StatusReuniao status;
 
-    @Lob
-    @ToString.Exclude
+    @Column(name = "ata", columnDefinition = "bytea")
+    @Basic(fetch = FetchType.LAZY)
     private byte[] ata;
 
     @NotNull(message = "Você deve selecionar um colegiado.")
