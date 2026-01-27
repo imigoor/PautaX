@@ -3,6 +3,7 @@ package br.edu.ifpb.pautax.api.coordenador;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir.IDistribuirProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarPendentes.IListarProcessosPendentesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProcesso.IListarProcessosUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.reuniao.IListarReunioesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
@@ -12,6 +13,7 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.mostrar.IMostr
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostrar.IMostrarProcessoSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.votacao.concluir.IConcluirVotacaoUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
+import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +43,7 @@ public class CoordenadorController {
     private final IMostrarSessaoUseCase mostrarSessaoUseCase;
     private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
     private final IConcluirVotacaoUseCase concluirVotacaoUseCase;
+    private final IListarReunioesUseCase listarReunioesUseCase;
 
     @GetMapping("/home-coordenador")
     public ModelAndView mostrarHomeCoordenador() {
@@ -131,5 +134,15 @@ public class CoordenadorController {
         }
 
         return "redirect:/coordenador/conduzir-sessao/" + idReuniao;
+    }
+
+    @GetMapping("/reunioes")
+    public ModelAndView consultarReunioes(@RequestParam(value = "status", required = false) StatusReuniao status) {        
+        ModelAndView mv = new ModelAndView("coordenador/consultar-reunioes");
+        
+        mv.addObject("reunioes", listarReunioesUseCase.execute(status));        
+        mv.addObject("statusSelecionado", status);
+
+        return mv;
     }
 }

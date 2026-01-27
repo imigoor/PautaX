@@ -5,6 +5,7 @@
     <title>Meus Processos Atribuídos</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
         a { text-decoration: none; }
@@ -28,12 +29,14 @@
                 <th>Assunto</th>
                 <th>Aluno Interessado</th>
                 <th>Data de Distribuição</th>
+                <th>Status</th>
+                <th>Ações</th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:if="${processosAtribuidos.isEmpty()}">
-                <td colspan="4" class="text-center">
+                <td colspan="6" class="text-center">
                     Você não possui processos atribuídos no momento.
                 </td>
             </tr>
@@ -44,6 +47,24 @@
                 <td th:text="${proc.interessado.usuario.nome}">José da Silva</td>
                 <td th:text="${#temporals.format(proc.dataDistribuicao, 'dd/MM/yyyy')}">
                     01/11/2025
+                </td>
+                <td>
+                    <span class="badge" 
+                          th:classappend="${proc.statusProcesso.name() == 'DISPONIVEL'} ? 'bg-success' : 'bg-warning text-dark'"
+                          th:text="${proc.statusProcesso}">
+                    </span>
+                </td>
+                <td>
+                    <a th:if="${proc.statusProcesso.name() == 'DISTRIBUIDO' or proc.statusProcesso.name() == 'DISPONIVEL'}"
+                       th:href="@{/professor/processo/{id}/parecer(id=${proc.id})}" 
+                       class="btn btn-primary btn-sm">
+                       <i class="bi bi-pencil-square"></i> Emitir Parecer
+                    </a>
+                    
+                    <span th:if="${proc.statusProcesso.name() == 'EM_PAUTA' or proc.statusProcesso.name() == 'JULGADO'}" 
+                          class="text-muted small">
+                        <i class="bi bi-lock-fill"></i> Bloqueado
+                    </span>
                 </td>
             </tr>
             </tbody>
