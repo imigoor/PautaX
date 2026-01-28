@@ -2,6 +2,7 @@ package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar;
 
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
@@ -26,24 +27,33 @@ public class ListarSessaoUseCase implements IListarSessaoUseCase{
 
     @Override
     @Transactional(readOnly = true)
-    public ModelAndView execute() {
-        ModelAndView modelAndView = new ModelAndView("/coordenador/listar-sessoes");
+    public ModelAndView execute(StatusReuniao status) {
 
-        modelAndView.addObject("novaReuniao", new CriarSessaoFormDTO());
+        ModelAndView mv = new ModelAndView("/coordenador/listar-sessoes");
 
-        List<Reuniao> reunioes = reuniaoRepository.findAll();
+        mv.addObject("novaReuniao", new CriarSessaoFormDTO());
+
+        List<Reuniao> reunioes;
+
+        if (status == null) {
+            reunioes = reuniaoRepository.findAll();
+        } else {
+            reunioes = reuniaoRepository.findByStatus(status);
+        }
 
         for (Reuniao r : reunioes) {
             Hibernate.initialize(r.getProcessos());
         }
 
-        modelAndView.addObject("sessao", reunioes);
+        mv.addObject("sessao", reunioes);
+        mv.addObject("statusSelecionado", status);
 
-        modelAndView.addObject("listaColegiados", colegiadoRepository.findAll());
-        modelAndView.addObject("processosDisponiveis", processoRepository.findByReuniaoIsNullAndRelatorIdIsNotNull());
-        modelAndView.addObject("membrosDisponiveis", professorRepository.findAll());
+        mv.addObject("listaColegiados", colegiadoRepository.findAll());
+        mv.addObject("processosDisponiveis",
+                processoRepository.findByReuniaoIsNullAndRelatorIdIsNotNull());
+        mv.addObject("membrosDisponiveis", professorRepository.findAll());
 
-        return modelAndView;
+        return mv;
     }
 
     @Override
