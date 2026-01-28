@@ -50,7 +50,7 @@ public class ListarSessaoUseCase implements IListarSessaoUseCase{
 
         mv.addObject("listaColegiados", colegiadoRepository.findAll());
         mv.addObject("processosDisponiveis",
-                processoRepository.findByReuniaoIsNullAndRelatorIdIsNotNull());
+                processoRepository.findByReuniaoIsNullAndRelatorIdIsNotNullAndDecisaoRelatorIsNotNull());
         mv.addObject("membrosDisponiveis", professorRepository.findAll());
 
         return mv;
