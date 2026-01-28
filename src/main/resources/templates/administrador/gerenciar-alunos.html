@@ -25,14 +25,32 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Telefone:</label>
+                <input type="text" th:field="*{usuario.fone}" class="form-control" placeholder="(83) 99999-9999">
+                <div th:if="${#fields.hasErrors('usuario.fone')}" class="text-danger" th:errors="*{usuario.fone}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Login:</label>
+                <input type="text" th:field="*{usuario.login}" class="form-control" placeholder="ex: joao@ifpb.edu.br">
+                <div th:if="${#fields.hasErrors('usuario.login')}" class="text-danger" th:errors="*{usuario.login}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Senha:</label>
+                <input type="password" th:field="*{usuario.senha}" class="form-control" placeholder="Digite uma senha">
+                <div th:if="${#fields.hasErrors('usuario.senha')}" class="text-danger" th:errors="*{usuario.senha}"></div>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label">Matrícula:</label>
-                <input type="text" th:field="*{matricula}" class="form-control">
+                <input type="text" th:field="*{matricula}" class="form-control" placeholder="Ex: 202612345678">
                 <div th:if="${#fields.hasErrors('matricula')}" class="text-danger" th:errors="*{matricula}"></div>
             </div>
 
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-success">Salvar</button>
-                <a th:href="@{/admin/alunos}" class="btn btn-secondary">Cancelar</a>
+                <a th:href="@{/admin/alunos}" class="btn btn-secondary">Cancelar Edição</a>
             </div>
         </form>
     </div>
@@ -48,7 +66,7 @@
                 <th>Nome</th>
                 <th>Matrícula</th>
                 <th>Login</th>
-                <th>Ações</th>
+                <th>Telefone</th> <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -57,9 +75,15 @@
                 <td th:text="${aluno.usuario.nome}"></td>
                 <td th:text="${aluno.matricula}"></td>
                 <td th:text="${aluno.usuario.login}"></td>
-                <td>
+                <td th:text="${aluno.usuario.fone}"></td> <td>
                     <a th:href="@{/admin/alunos/editar/{id}(id=${aluno.id})}" class="btn btn-primary btn-sm">Editar</a>
-                    </td>
+
+                    <form th:action="@{/admin/alunos/deletar/{id}(id=${aluno.id})}"
+                          method="post" class="d-inline"
+                          onsubmit="return confirm('Tem certeza que deseja excluir este aluno?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
