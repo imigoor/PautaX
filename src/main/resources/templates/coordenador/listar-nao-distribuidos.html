@@ -19,7 +19,7 @@
         <h1 class="mb-4">Processos Pendentes de Distribuição</h1>
 
         <table class="table table-striped table-bordered align-middle">
-            <thead class="table-primary">
+            <thead class="table-dark">
             <tr>
                 <th>Número</th>
                 <th>Assunto</th>
@@ -65,8 +65,8 @@
                 <li class="page-item" th:classappend="${processosPendentes.first} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/coordenador/listar-pendentes(
-                         page=${processosPendentes.number - 1},
-                         size=${processosPendentes.size}
+                        page=${processosPendentes.number - 1},
+                        size=${processosPendentes.size}
                        )}">
                         Anterior
                     </a>
@@ -81,8 +81,8 @@
                 <li class="page-item" th:classappend="${processosPendentes.last} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/coordenador/listar-pendentes(
-                         page=${processosPendentes.number + 1},
-                         size=${processosPendentes.size}
+                        page=${processosPendentes.number + 1},
+                        size=${processosPendentes.size}
                        )}">
                         Próximo
                     </a>
