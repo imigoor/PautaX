@@ -88,6 +88,43 @@
   <hr/>
 
   <h3 class="mb-3">Sessões Cadastradas</h3>
+
+    <div class="card shadow p-3 mb-4">
+        <h5 class="mb-3">Filtrar Sessões</h5>
+
+        <form method="get" th:action="@{/coordenador/listar-sessoes}" class="row g-3 align-items-end">
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Status:</label>
+                <select name="status" class="form-select">
+                    <option value="">Todas</option>
+
+                    <option value="PROGRAMADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'PROGRAMADA'}">
+                        Programada
+                    </option>
+
+                    <option value="INICIADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'INICIADA'}">
+                        Iniciada
+                    </option>
+
+                    <option value="ENCERRADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'ENCERRADA'}">
+                        Encerrada
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    Filtrar
+                </button>
+            </div>
+
+        </form>
+    </div>
+
   <table class="table table-striped table-hover shadow">
     <thead class="table-dark">
     <tr>

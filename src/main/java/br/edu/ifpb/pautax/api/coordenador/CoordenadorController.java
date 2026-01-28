@@ -3,7 +3,6 @@ package br.edu.ifpb.pautax.api.coordenador;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.distribuir.IDistribuirProcessoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarPendentes.IListarProcessosPendentesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.processo.listarProcesso.IListarProcessosUseCase;
-import br.edu.ifpb.pautax.application.useCases.coordenador.reuniao.IListarReunioesUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
@@ -44,7 +43,6 @@ public class CoordenadorController {
     private final IMostrarSessaoUseCase mostrarSessaoUseCase;
     private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
     private final IConcluirVotacaoUseCase concluirVotacaoUseCase;
-    private final IListarReunioesUseCase listarReunioesUseCase;
     private final IEncerrarSessaoUseCase encerrarSessaoUseCase;
 
     @GetMapping("/home-coordenador")
@@ -92,9 +90,9 @@ public class CoordenadorController {
     }
 
     @GetMapping("/listar-sessoes")
-    public ModelAndView mostrarSessoes()
+    public ModelAndView mostrarSessoes(@RequestParam(value = "status", required = false) StatusReuniao status)
     {
-        return listarSessaoUseCase.execute();
+        return listarSessaoUseCase.execute(status);
     }
 
     @PostMapping("/deletar-sessao/{id}")
@@ -141,15 +139,5 @@ public class CoordenadorController {
     @PostMapping("/conduzir-sessao/{id}/encerrar")
     public String encerrarSessao(@PathVariable("id") Integer idSessao, RedirectAttributes redirectAttributes) {
         return encerrarSessaoUseCase.execute(idSessao, redirectAttributes);
-    }
-
-    @GetMapping("/reunioes")
-    public ModelAndView consultarReunioes(@RequestParam(value = "status", required = false) StatusReuniao status) {        
-        ModelAndView mv = new ModelAndView("coordenador/consultar-reunioes");
-        
-        mv.addObject("reunioes", listarReunioesUseCase.execute(status));        
-        mv.addObject("statusSelecionado", status);
-
-        return mv;
     }
 }

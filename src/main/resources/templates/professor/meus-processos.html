@@ -71,7 +71,17 @@
         </table>
     </div>
 
-    <a th:href="@{/professor/home-professor}" class="btn btn-secondary">Voltar ao Painel</a>
+    <a sec:authorize="hasRole('COORDENADOR')"
+       th:href="@{/coordenador/home-coordenador}"
+       class="btn btn-secondary">
+        Voltar ao Painel
+    </a>
+
+    <a sec:authorize="hasRole('PROFESSOR') and !hasRole('COORDENADOR')"
+       th:href="@{/professor/home-professor}"
+       class="btn btn-secondary">
+        Voltar ao Painel
+    </a>
 
 </div>
 

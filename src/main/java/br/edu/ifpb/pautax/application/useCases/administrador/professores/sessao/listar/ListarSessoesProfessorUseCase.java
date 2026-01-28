@@ -2,6 +2,7 @@ package br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao
 
 import br.edu.ifpb.pautax.domain.entities.Professor;
 import br.edu.ifpb.pautax.domain.entities.Reuniao;
+import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ public class ListarSessoesProfessorUseCase implements IListarSessoesProfessorUse
     private final ReuniaoRepository reuniaoRepository;
 
     @Override
-    @Transactional()
-    public ModelAndView execute() {
+    @Transactional(readOnly = true)
+    public ModelAndView execute(StatusReuniao status) {
+
         ModelAndView mv = new ModelAndView("/professor/listar-sessoes");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -33,12 +35,20 @@ public class ListarSessoesProfessorUseCase implements IListarSessoesProfessorUse
                 .findByUsuarioLogin(login)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
-        List<Reuniao> reunioes = reuniaoRepository
-                .findByColegiadoMembrosContains(professor);
+        List<Reuniao> reunioes;
+
+        if (status == null) {
+            reunioes = reuniaoRepository
+                    .findByColegiadoMembrosContains(professor);
+        } else {
+            reunioes = reuniaoRepository
+                    .findByColegiadoMembrosContainsAndStatus(professor, status);
+        }
 
         reunioes.forEach(r -> Hibernate.initialize(r.getProcessos()));
 
         mv.addObject("sessoes", reunioes);
+        mv.addObject("statusSelecionado", status);
 
         return mv;
     }

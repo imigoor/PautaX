@@ -4,6 +4,7 @@ import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.mostrar.IvisualizarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.processo.visualizar.IVisualizarProcessoVotacaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.administrador.professores.sessao.processo.votar.IVotarProcessoUseCase;
+import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
 import br.edu.ifpb.pautax.domain.enums.TipoVoto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -52,8 +53,10 @@ public class ProfessorController {
     }
 
     @GetMapping("/listar-sessoes")
-    public ModelAndView listarSessoes() {
-        return listarSessoesProfessorUseCase.execute();
+    public ModelAndView listarSessoes(
+            @RequestParam(value = "status", required = false) StatusReuniao status) {
+
+        return listarSessoesProfessorUseCase.execute(status);
     }
 
     @GetMapping("/visualizar-sessao/{id}")

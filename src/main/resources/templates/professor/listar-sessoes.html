@@ -18,6 +18,45 @@
 
     <h1 class="mb-4">Sessões do Colegiado</h1>
 
+    <div class="card shadow p-3 mb-4">
+
+        <h5 class="mb-3">Filtrar Sessões</h5>
+
+        <form method="get"
+              th:action="@{/professor/listar-sessoes}"
+              class="row g-3 align-items-end">
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Status:</label>
+                <select name="status" class="form-select">
+                    <option value="">Todas</option>
+
+                    <option value="PROGRAMADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'PROGRAMADA'}">
+                        Programada
+                    </option>
+
+                    <option value="INICIADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'INICIADA'}">
+                        Em andamento
+                    </option>
+
+                    <option value="ENCERRADA"
+                            th:selected="${statusSelecionado != null && statusSelecionado.name() == 'ENCERRADA'}">
+                        Encerrada
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    Filtrar
+                </button>
+            </div>
+
+        </form>
+    </div>
+
     <div th:if="${erro}" class="alert alert-danger text-center">
         <span th:text="${erro}"></span>
     </div>
@@ -91,7 +130,15 @@
         </tbody>
     </table>
 
-    <a th:href="@{/professor/home-professor}" class="btn btn-dark mt-3">
+    <a sec:authorize="hasRole('COORDENADOR')"
+       th:href="@{/coordenador/home-coordenador}"
+       class="btn btn-secondary">
+        Voltar ao Painel
+    </a>
+
+    <a sec:authorize="hasRole('PROFESSOR') and !hasRole('COORDENADOR')"
+       th:href="@{/professor/home-professor}"
+       class="btn btn-secondary">
         Voltar ao Painel
     </a>
 
