@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/professor")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_PROFESSOR')")
+@PreAuthorize("hasAnyRole('ROLE_PROFESSOR', 'ROLE_COORDENADOR')")
 public class ProfessorController {
 
     private final IListarProcessosAtribuidosUseCase listarProcessosAtribuidosUseCase;
