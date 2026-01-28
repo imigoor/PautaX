@@ -127,7 +127,9 @@
                 <td th:text="${proc.numero}"></td>
                 <td th:text="${proc.assunto.nome}"></td>
                 <td th:text="${proc.statusProcesso}"></td>
+                
                 <td th:text="${#temporals.format(proc.dataRegistro, 'dd/MM/yyyy HH:mm')}"></td>
+                
                 <td>
                     <div th:if="${proc.statusProcesso.name() == 'CRIADO'}">
                         <form th:action="@{/aluno/upload-requerimento/{id}(id=${proc.id})}"
@@ -149,7 +151,7 @@
 
                     <span th:unless="${proc.statusProcesso.name() == 'CRIADO'}"
                           class="text-muted small fst-italic">
-                        <i class="bi bi-lock-fill"></i> Edição bloqueada.
+                        <i class="bi bi-lock-fill"></i> Edição bloqueada. O requerimento só pode ser alterado no status CRIADO.
                     </span>
                 </td>
             </tr>
