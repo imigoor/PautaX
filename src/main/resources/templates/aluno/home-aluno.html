@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/template}">
 <head>
-    <meta charset="UTF-8">
     <title>Aluno - Home</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
+    <style layout:fragment="estilos">
         a { text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div layout:fragment="conteudo">
 
     <h2 class="mb-4">Bem-vindo, <span sec:authentication="name"></span>!</h2>
 
@@ -35,14 +34,12 @@
 
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="/aluno/gerenciar-processo" class="fw-bold">Gerenciar Processos</a>
+                <a href="/aluno/gerenciar-processo" class="fw-bold text-dark">Gerenciar Processos</a>
             </li>
         </ul>
     </div>
 
-    <a th:href="@{/logout}" class="btn btn-danger">Sair</a>
-
-</div>
+    </div>
 
 </body>
 </html>

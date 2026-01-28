@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="nav-principal" class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">Collegialis</a>
+        
+        <div class="d-flex">
+            <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
