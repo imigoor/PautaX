@@ -1,50 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/template}"> <head>
-    <title>Painel do Coordenador</title>
+      layout:decorate="~{layout/template}">
+<head>
+    <title>Coordenador - Home</title>
+
     <style layout:fragment="estilos">
         a { text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
+
 <body>
 
 <div layout:fragment="conteudo">
 
-    <h2 class="mb-3">Bem-vindo, <span th:text="${#authentication.name}">User</span>!</h2>
-    
-    <p class="mb-4"><strong>Seus papéis:</strong> 
-        <span th:each="authority : ${#authentication.authorities}" th:text="${authority.authority} + ' '"></span>
-    </p>
+    <h2 class="mb-3">Bem-vindo, <span sec:authentication="name"></span>!</h2>
+    <p class="mb-4"><strong>Seus papéis:</strong> <span sec:authentication="principal.authorities"></span></p>
 
     <div class="card shadow p-4 mb-4">
         <h2 class="mb-3">Painel do Coordenador</h2>
 
         <ul class="list-group">
+            
             <li class="list-group-item">
-                <a th:href="@{/coordenador/listar-processo}" class="fw-bold">
+                <a th:href="@{/professor/meus-processos}" class="fw-bold text-dark">
+                    Consultar Meus Processos Atribuídos
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{/professor/listar-sessoes}" class="fw-bold text-dark">
+                    Consultar sessões do colegiado
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a th:href="@{/coordenador/listar-processo}" class="fw-bold text-dark">
                     Listar Processos para Distribuição
                 </a>
             </li>
+
             <li class="list-group-item">
-                <a th:href="@{/coordenador/listar-pendentes}" class="fw-bold">
+                <a th:href="@{/coordenador/listar-pendentes}" class="fw-bold text-dark">
                     Distribuir Processos Pendentes
                 </a>
             </li>
+
             <li class="list-group-item">
-                <a th:href="@{/coordenador/listar-sessoes}" class="fw-bold">
+                <a th:href="@{/coordenador/listar-sessoes}" class="fw-bold text-dark">
                     Gerenciar sessões de colegiados
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a th:href="@{/coordenador/reunioes}" class="fw-bold text-primary">
-                    Consultar Reuniões do Colegiado
                 </a>
             </li>
         </ul>
     </div>
-    
+
     </div>
 
 </body>
