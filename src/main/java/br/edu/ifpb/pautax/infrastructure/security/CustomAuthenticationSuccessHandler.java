@@ -37,10 +37,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 //      Verifica o papel do usuário e define o redirecionamento apropriado
         if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ALUNO"))) {
             redirectURL = "/aluno/home-aluno";
-        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESSOR"))) {
-            redirectURL = "/professor/home-professor";
         } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_COORDENADOR"))) {
             redirectURL = "/coordenador/home-coordenador";
+        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESSOR"))) {
+            redirectURL = "/professor/home-professor";
         } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))
         {
             redirectURL = "/admin/home-admin";
