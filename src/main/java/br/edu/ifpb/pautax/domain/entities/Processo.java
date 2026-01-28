@@ -24,17 +24,21 @@ public class Processo {
 
     @Lob
     @ToString.Exclude
-    private byte[] parecer;
-
-    @Lob
-    @ToString.Exclude
     private byte[] requerimento;
 
     @Enumerated(EnumType.STRING)
     private TipoDecisao decisaoRelator;
 
+    @Lob
+    @Column(nullable = true)
+    private String justificativaRelator;
+
     @Enumerated(EnumType.STRING)
     private StatusProcesso statusProcesso;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private TipoDecisao decisaoFinal;
 
     @NotNull(message = "Selecione um assunto válido.")
     @ManyToOne
@@ -54,5 +58,6 @@ public class Processo {
     private Reuniao reuniao;
 
     @OneToMany(mappedBy = "processo")
+    @ToString.Exclude
     private List<Voto> votos;
 }

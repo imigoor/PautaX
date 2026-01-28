@@ -1,9 +1,11 @@
     package br.edu.ifpb.pautax.domain.entities;
 
+    import br.edu.ifpb.pautax.domain.validators.matricula.IMatricula;
     import jakarta.persistence.*;
     import jakarta.validation.Valid;
     import jakarta.validation.constraints.*;
     import lombok.Data;
+    import lombok.ToString;
 
     import java.util.List;
 
@@ -19,11 +21,11 @@
         @Valid
         Usuario usuario;
 
-        @NotBlank(message = "A matrícula é obrigatória.")
-        @Size(min = 4, max = 20, message = "A matrícula deve ter entre 4 e 20 caracteres.")
+        @IMatricula
         @Column(nullable = false)
         private String matricula;
 
         @OneToMany(mappedBy = "interessado")
+        @ToString.Exclude
         private List<Processo> processos;
     }

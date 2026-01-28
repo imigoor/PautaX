@@ -2,6 +2,7 @@ package br.edu.ifpb.pautax.api.aluno;
 
 import br.edu.ifpb.pautax.application.useCases.aluno.home.IMostrarHomeUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.ICadastrarProcessoUseCase;
+import br.edu.ifpb.pautax.application.useCases.aluno.processo.editar.IAtualizarRequerimentoUseCase;
 import br.edu.ifpb.pautax.application.useCases.aluno.processo.listar.IListarProcessoAlunoUseCase;
 import br.edu.ifpb.pautax.domain.entities.Assunto;
 import br.edu.ifpb.pautax.domain.entities.Processo;
@@ -30,6 +31,7 @@ public class AlunoController {
 
     private final ICadastrarProcessoUseCase cadastrarProcessoUseCase;
     private final IListarProcessoAlunoUseCase listarProcessoAlunoUseCase;
+    private final IAtualizarRequerimentoUseCase atualizarRequerimentoUseCase;
 
     /**
      * Página inicial do aluno
@@ -67,13 +69,30 @@ public class AlunoController {
 
         if (result.hasErrors()) {
             Map<String, Object> dadosDoUseCase = mostrarHomeUseCase.execute(userDetails).getModel();
+            Map<String, Object> dadosLista = listarProcessoAlunoUseCase.execute(userDetails, null, null, null).getModel();
 
             model.addAttribute("listaAssuntos", dadosDoUseCase.get("listaAssuntos"));
             model.addAttribute("aluno", dadosDoUseCase.get("aluno"));
+            model.addAttribute("listaProcesso", dadosLista.get("listaProcesso"));
 
             return "aluno/gerenciar-processo";
         }
 
         return cadastrarProcessoUseCase.execute(processo, arquivo, userDetails, rd);
+    }
+
+    @PostMapping("/upload-requerimento/{id}")
+    public String uploadRequerimento(
+            @PathVariable("id") int idProcesso,
+            @RequestParam("arquivoRequerimento") MultipartFile arquivo,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            RedirectAttributes rd){
+        if (arquivo.isEmpty())
+        {
+            rd.addFlashAttribute("mensagemErro", "Por favor, selecione um arquivo PDF.");
+            return "redirect:/aluno/gerenciar-processo";
+        }
+
+        return atualizarRequerimentoUseCase.execute(idProcesso, arquivo, userDetails, rd);
     }
 }

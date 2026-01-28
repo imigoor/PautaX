@@ -51,7 +51,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Matrícula:</label>
-                <input type="text" class="form-control" th:field="*{matricula}" placeholder="Ex: 2025123456">
+                <input type="text" class="form-control" th:field="*{matricula}" placeholder="Ex: 202612345678">
                 <div class="text-danger" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}"></div>
             </div>
 
