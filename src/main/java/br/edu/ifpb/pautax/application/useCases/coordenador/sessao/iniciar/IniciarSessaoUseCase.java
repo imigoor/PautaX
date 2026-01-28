@@ -27,6 +27,10 @@ public class IniciarSessaoUseCase implements IIniciarSessaoUseCase {
             throw new IllegalArgumentException("Já existe uma sessão em andamento.");
         }
 
+        if (reuniao.getStatus().equals(StatusReuniao.ENCERRADA)) {
+            throw new IllegalArgumentException("A sessão já está encerrada.");
+        }
+
         if (reuniao.getStatus().equals(StatusReuniao.INICIADA)) {
             return "redirect:/coordenador/conduzir-sessao/"  + idReuniao;
         }

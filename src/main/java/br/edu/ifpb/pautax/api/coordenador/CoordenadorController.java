@@ -7,6 +7,7 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.reuniao.IListarReunio
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.CriarSessaoFormDTO;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.cadastrar.ICriarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar.IDeletarSessaoUseCase;
+import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.encerrar.IEncerrarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.iniciar.IIniciarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.listar.IListarSessaoUseCase;
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.mostrar.IMostrarSessaoUseCase;
@@ -44,6 +45,7 @@ public class CoordenadorController {
     private final IMostrarProcessoSessaoUseCase mostrarProcessoSessaoUseCase;
     private final IConcluirVotacaoUseCase concluirVotacaoUseCase;
     private final IListarReunioesUseCase listarReunioesUseCase;
+    private final IEncerrarSessaoUseCase encerrarSessaoUseCase;
 
     @GetMapping("/home-coordenador")
     public ModelAndView mostrarHomeCoordenador() {
@@ -134,6 +136,11 @@ public class CoordenadorController {
         }
 
         return "redirect:/coordenador/conduzir-sessao/" + idReuniao;
+    }
+
+    @PostMapping("/conduzir-sessao/{id}/encerrar")
+    public String encerrarSessao(@PathVariable("id") Integer idSessao, RedirectAttributes redirectAttributes) {
+        return encerrarSessaoUseCase.execute(idSessao, redirectAttributes);
     }
 
     @GetMapping("/reunioes")
