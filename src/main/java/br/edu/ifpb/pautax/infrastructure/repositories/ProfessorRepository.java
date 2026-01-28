@@ -15,4 +15,7 @@ public interface ProfessorRepository extends JpaRepository<Professor,Integer> {
     Optional<Professor> findByUsuario(Usuario usuario);
     @Query("SELECT DISTINCT p FROM Professor p JOIN p.colegiados c")
     List<Professor> findAllMembrosDeColegiado();
+    Optional<Object> findByUsuarioLogin(String login);
+
+    Optional<Object> findByUsuarioId(int professorId);
 }

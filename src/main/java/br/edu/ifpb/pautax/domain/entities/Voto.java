@@ -14,6 +14,10 @@ public class Voto {
     @Enumerated(EnumType.STRING)
     private TipoVoto voto;
 
+    @Lob
+    @Column(nullable = true)
+    private String justificativa;
+
     private boolean ausente;
 
     @ManyToOne

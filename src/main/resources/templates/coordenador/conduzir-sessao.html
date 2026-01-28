@@ -18,6 +18,15 @@
 <div class="container-fluid mt-4">
     <h1 class="mb-4">Sessão de Julgamento em Andamento</h1>
 
+    <div th:if="${erro}" class="alert alert-danger text-center">
+        <strong>Erro:</strong>
+        <span th:text="${erro}"></span>
+    </div>
+
+    <div th:if="${sucesso}" class="alert alert-success text-center">
+        <span th:text="${sucesso}"></span>
+    </div>
+
     <div class="row">
 
         <div class="col-md-3">
@@ -31,7 +40,9 @@
                         th:each="proc : ${sessao.processos}"
                         th:classappend="${proc.id == processoSelecionado?.id} ? 'active'">
 
-                        <a class="d-block pauta-item text-decoration-none text-dark p-3"
+                        <!-- Processo NÃO julgado -->
+                        <a th:if="${proc.statusProcesso.name() != 'JULGADO'}"
+                           class="d-block pauta-item text-decoration-none text-dark p-3"
                            th:href="@{/coordenador/conduzir-sessao/{id}/processo/{pid}(id=${sessao.id}, pid=${proc.id})}">
 
                             <div class="fw-bold"
@@ -40,6 +51,28 @@
                             <small class="text-muted"
                                    th:text="${proc.assunto.nome}"></small>
                         </a>
+
+                        <!-- Processo JULGADO -->
+                        <div th:if="${proc.statusProcesso.name() == 'JULGADO'}"
+                             class="d-block pauta-item text-muted p-3">
+
+                            <div class="fw-bold"
+                                 th:text="${'Processo nº ' + proc.numero}">
+                            </div>
+
+                            <small class="d-block"
+                                   th:text="${proc.assunto.nome + ' (concluído)'}">
+                            </small>
+
+                            <span class="badge mt-2"
+                                  th:classappend="${proc.decisaoFinal.name() == 'DEFERIMENTO'
+                           ? 'bg-success'
+                           : 'bg-danger'}"
+                                  th:text="${proc.decisaoFinal}">
+                            </span>
+                        </div>
+
+
                     </li>
 
                     <li class="list-group-item text-muted text-center"
@@ -49,7 +82,7 @@
                 </ul>
             </div>
 
-            <form th:action="@{/coordenador/conduzir-sessao/{id}/finalizar(id=${sessao.id})}" method="post">
+            <form th:action="@{/coordenador/conduzir-sessao/{id}/encerrar(id=${sessao.id})}" method="post">
                 <button type="submit"
                         class="btn btn-danger w-100"
                         onclick="return confirm('Tem certeza que deseja encerrar a sessão?');">
@@ -70,12 +103,13 @@
                     <p><strong>Solicitante:</strong> <span th:text="${processoSelecionado.interessado.usuario.nome}"></span></p>
                     <p><strong>Assunto:</strong> <span th:text="${processoSelecionado.assunto.nome}"></span></p>
                     <p><strong>Relator:</strong> <span th:text="${processoSelecionado.relator.usuario.nome}"></span></p>
+                    <p><strong>Status:</strong> <span class="badge" th:classappend="${processoSelecionado.statusProcesso.name() == 'JULGADO' ? 'bg-dark' : 'bg-warning'}" th:text="${processoSelecionado.statusProcesso}"></span></p>
 
                     <hr/>
 
                     <p><strong>Parecer do Relator:</strong></p>
                     <p class="border rounded p-2 bg-light"
-                       th:text="${processoSelecionado.parecer != null ? 'Parecer registrado.' : 'Parecer ainda não registrado.'}">
+                       th:text="${processoSelecionado.justificativaRelator}">
                     </p>
 
 
@@ -126,8 +160,8 @@
                 </div>
             </div>
 
-            <form th:if="${processoSelecionado != null}"
-                  th:action="@{/coordenador/sessao/{sid}/processo/{pid}/concluir(sid=${sessao.id}, pid=${processoSelecionado.id})}"
+            <form th:if="${processoSelecionado != null and processoSelecionado.statusProcesso.name() != 'JULGADO'}"
+                  th:action="@{/coordenador/conduzir-sessao/{sid}/processo/{pid}/concluir(sid=${sessao.id}, pid=${processoSelecionado.id})}"
                   method="post">
 
                 <button type="submit"

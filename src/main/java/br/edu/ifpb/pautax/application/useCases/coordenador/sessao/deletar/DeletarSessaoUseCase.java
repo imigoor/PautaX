@@ -1,5 +1,6 @@
 package br.edu.ifpb.pautax.application.useCases.coordenador.sessao.deletar;
 
+import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProcessoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ReuniaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class DeletarSessaoUseCase implements IDeletarSessaoUseCase {
         if (processosDaPauta != null) {
             for (Processo processo : processosDaPauta) {
                 processo.setReuniao(null);
+                processo.setStatusProcesso(StatusProcesso.DISTRIBUIDO);
                 processoRepository.save(processo);
             }
         }

@@ -14,6 +14,10 @@
 <div class="container mt-5">
   <h1 class="mb-4">Gerenciar Sessões</h1>
 
+    <div th:if="${sucesso}" class="alert alert-success">
+        <span th:text="${sucesso}"></span>
+    </div>
+
     <div th:if="${erro}" class="alert alert-danger">
         <span th:text="${erro}"></span>
     </div>
@@ -113,21 +117,20 @@
         <span th:if="${#lists.isEmpty(reuniao.processos)}" class="text-muted">Sem pauta</span>
       </td>
       <td class="d-flex gap-2">
-        <form th:action="@{/coordenador/iniciar-sessao/{id}(id=${reuniao.id})}" method="post">
-            <button type="submit"
-                    class="btn btn-primary btn-sm">
-                <i class="bi bi-play-circle"></i> Conduzir
-            </button>
-        </form>
+          <form th:if="${reuniao.status.name() != 'ENCERRADA'}"
+                th:action="@{/coordenador/iniciar-sessao/{id}(id=${reuniao.id})}"
+                method="post">
 
+              <button type="submit" class="btn btn-primary btn-sm">
+                  Conduzir
+              </button>
+          </form>
 
-        <form th:action="@{/coordenador/deletar-sessao/{id}(id=${reuniao.id})}" method="post">
-          <button type="submit"
-                  class="btn btn-sm btn-danger"
-                  onclick="return confirm('Tem certeza que deseja cancelar esta sessão?');">
-            Excluir
+          <button th:if="${reuniao.status.name() == 'ENCERRADA'}"
+                  class="btn btn-secondary btn-sm"
+                  disabled>
+              Sessão indisponível
           </button>
-        </form>
       </td>
     </tr>
     </tbody>

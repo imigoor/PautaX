@@ -23,9 +23,9 @@ public class EmitirParecerUseCase implements IEmitirParecerUseCase {
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
 
         processo.setDecisaoRelator(decisao);
-                
+
         if (textoParecer != null) {
-            processo.setParecer(textoParecer.getBytes());
+            processo.setJustificativaRelator(textoParecer);
         }
 
         processo.setDataParecer(LocalDate.now());

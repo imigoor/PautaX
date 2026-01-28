@@ -18,8 +18,8 @@ public class ExibirFormularioParecerUseCase implements IExibirFormularioParecerU
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
         
         String parecerTexto = "";
-        if (processo.getParecer() != null) {
-            parecerTexto = new String(processo.getParecer());
+        if (processo.getJustificativaRelator() != null) {
+            parecerTexto = processo.getJustificativaRelator();
         }
 
         ModelAndView mv = new ModelAndView("professor/emitir-parecer");
