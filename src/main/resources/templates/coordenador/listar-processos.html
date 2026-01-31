@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/template}">
 <head>
-    <meta charset="UTF-8">
     <title>Consultar Processos</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
+    <style layout:fragment="estilos">
         a { text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div layout:fragment="conteudo">
 
     <div class="card shadow p-4">
         <h1 class="mb-4">Consultar Processos</h1>
@@ -69,7 +68,7 @@
         <h3>Listagem de Processos</h3>
 
         <table class="table table-bordered table-striped mt-3 align-middle">
-            <thead class="table-primary">
+            <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Número</th>
@@ -89,7 +88,7 @@
                 <td th:text="${proc.interessado.usuario.nome}"></td>
                 <td th:text="${proc.relator != null ? proc.relator.usuario.nome : 'Pendente'}"></td>
                 <td th:text="${proc.statusProcesso}"></td>
-                <td th:text="${#temporals.format(proc.dataRegistro, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(proc.dataRegistro, 'dd/MM/yyyy HH:mm')}"></td>
             </tr>
 
             <tr th:if="${#lists.isEmpty(listaProcessos)}">
@@ -107,11 +106,11 @@
                 <li class="page-item" th:classappend="${listaProcessos.first} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/coordenador/listar-processo(
-                       page=${listaProcessos.number - 1},
-                       size=${listaProcessos.size},
-                       status=${statusSelecionado},
-                       idAluno=${alunoSelecionado},
-                       idRelator=${relatorSelecionado}
+                        page=${listaProcessos.number - 1},
+                        size=${listaProcessos.size},
+                        status=${statusSelecionado},
+                        idAluno=${alunoSelecionado},
+                        idRelator=${relatorSelecionado}
                     )}">
                         Anterior
                     </a>
@@ -126,11 +125,11 @@
                 <li class="page-item" th:classappend="${listaProcessos.last} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/coordenador/listar-processo(
-                       page=${listaProcessos.number + 1},
-                       size=${listaProcessos.size},
-                       status=${statusSelecionado},
-                       idAluno=${alunoSelecionado},
-                       idRelator=${relatorSelecionado}
+                        page=${listaProcessos.number + 1},
+                        size=${listaProcessos.size},
+                        status=${statusSelecionado},
+                        idAluno=${alunoSelecionado},
+                        idRelator=${relatorSelecionado}
                     )}">
                         Próximo
                     </a>
