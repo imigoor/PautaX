@@ -178,9 +178,23 @@ public class AdminController {
 
     @PostMapping("/colegiados/salvar")
     public String cadastrarColegiado(@Valid @ModelAttribute Colegiado colegiado, BindingResult result, Model model) {
+        boolean temCoordenador = false;
+
+        if (colegiado.getMembros() != null && !colegiado.getMembros().isEmpty()) {
+            temCoordenador = colegiado.getMembros().stream()
+                .anyMatch(professor -> professor.isCoordenador());
+        }
+
+        if (!temCoordenador) {
+            result.rejectValue("membros", "erro.colegiado", "O colegiado deve ter pelo menos um professor Coordenador.");
+        }
+
         if (result.hasErrors()) {
+            var dadosTela = listarColegiadoUseCase.execute().getModel();
+            
             model.addAttribute("listaDeColegiados", listarColegiadoUseCase.execute().getModel().get("listaDeColegiados"));
             model.addAttribute("todosProfessores", listarColegiadoUseCase.execute().getModel().get("todosProfessores"));
+            model.addAttribute("todosAlunos", dadosTela.get("todosAlunos"));
             return "administrador/gerenciar-colegiados";
         }
 
