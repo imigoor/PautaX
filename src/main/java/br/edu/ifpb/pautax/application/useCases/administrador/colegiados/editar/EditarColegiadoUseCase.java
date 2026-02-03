@@ -3,6 +3,7 @@ package br.edu.ifpb.pautax.application.useCases.administrador.colegiados.editar;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.edu.ifpb.pautax.infrastructure.repositories.AlunoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class EditarColegiadoUseCase implements IEditarColegiadoUseCase {
     private final ColegiadoRepository colegiadoRepository;
     private final ProfessorRepository professorRepository;
+    private final AlunoRepository alunoRepository;
 
     @Override
     public ModelAndView execute(Integer id) {
@@ -20,6 +22,7 @@ public class EditarColegiadoUseCase implements IEditarColegiadoUseCase {
         modelAndView.addObject("colegiado", colegiadoRepository.findById(id).get());
         modelAndView.addObject("listaDeColegiados", colegiadoRepository.findAll());
         modelAndView.addObject("todosProfessores", professorRepository.findAll());
+        modelAndView.addObject("todosAlunos", alunoRepository.findAll());
 
         return modelAndView;
     }

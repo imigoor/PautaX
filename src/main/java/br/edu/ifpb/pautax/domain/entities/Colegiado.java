@@ -38,6 +38,11 @@ public class Colegiado {
     @Size(min = 5, message = "O curso deve ter no mínimo 5 caracteres.")
     private String curso;
 
+    @NotNull(message = "É obrigatório selecionar um aluno representante.")
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno representante;
+
     @OneToMany(mappedBy = "colegiado")
     private List<Reuniao> reunioes;
 

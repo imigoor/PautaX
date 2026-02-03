@@ -59,6 +59,18 @@
                 <div th:if="${#fields.hasErrors('curso')}" class="text-danger" th:errors="*{curso}"></div>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Aluno Representante:</label>
+                <select th:field="*{representante}" class="form-select">
+                    <option value="">Selecione um aluno...</option>
+                    <option th:each="aluno : ${todosAlunos}"
+                            th:value="${aluno.id}"
+                            th:text="${aluno.usuario.nome + ' (' + aluno.matricula + ')'}">
+                    </option>
+                </select>
+                <div th:if="${#fields.hasErrors('representante')}" class="text-danger" th:errors="*{representante}"></div>
+            </div>
+
             <div class="mb-4">
                 <label class="form-label">Membros (Professores):</label>
 
@@ -80,6 +92,7 @@
                                    th:text="${prof.usuario.nome}">
                                 Nome Professor
                             </label>
+                            <span th:if="${prof.coordenador}" class="badge bg-info text-dark ms-2">Coord</span>
                         </div>
                     </div>
                 </details>
@@ -104,7 +117,7 @@
             <th>ID</th>
             <th>Descrição</th>
             <th>Curso</th>
-            <th>Vigência</th>
+            <th>Representante</th> <th>Vigência</th>
             <th>Membros</th>
             <th>Ações</th>
         </tr>
@@ -115,6 +128,9 @@
             <td th:text="${col.id}"></td>
             <td th:text="${col.descricao}"></td>
             <td th:text="${col.curso}"></td>
+
+            <td th:text="${col.representante != null ? col.representante.usuario.nome : 'N/A'}"></td>
+
             <td th:text="${#dates.format(col.dataInicio, 'dd/MM/yyyy') + ' - ' + #dates.format(col.dataFim, 'dd/MM/yyyy')}"></td>
 
             <td>
