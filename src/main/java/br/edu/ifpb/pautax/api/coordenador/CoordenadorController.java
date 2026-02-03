@@ -14,12 +14,14 @@ import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.mostr
 import br.edu.ifpb.pautax.application.useCases.coordenador.sessao.processo.votacao.concluir.IConcluirVotacaoUseCase;
 import br.edu.ifpb.pautax.domain.enums.StatusProcesso;
 import br.edu.ifpb.pautax.domain.enums.StatusReuniao;
+import br.edu.ifpb.pautax.infrastructure.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,10 +54,11 @@ public class CoordenadorController {
 
     @GetMapping("/listar-pendentes")
     public ModelAndView mostrarDistribuirProcesso(@RequestParam(defaultValue="0") int page,
-                                                  @RequestParam(defaultValue = "5") int size) {
+                                                  @RequestParam(defaultValue = "5") int size,
+                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return listarProcessosPendentesUseCase.execute(pageable);
+        return listarProcessosPendentesUseCase.execute(pageable, userDetails);
     }
 
     @GetMapping("/listar-processo")
@@ -86,7 +89,21 @@ public class CoordenadorController {
             return "/coordenador/listar-sessoes";
         }
 
-        return criarSessaoUseCase.execute(sessao);
+        try {
+            // 2. Tenta executar (aqui dentro do UseCase ocorre a validação do Relator)
+            return criarSessaoUseCase.execute(sessao);
+
+        } catch (IllegalArgumentException e) {
+            // 3. Captura o erro de negócio (Relator não pertence ao colegiado)
+            // Adiciona a mensagem de erro no modelo para o Thymeleaf mostrar o alerta vermelho
+            model.addAttribute("erro", e.getMessage());
+
+            // Recarrega os dados (listas de colegiados e processos) para a tela não ficar vazia
+            listarSessaoUseCase.carregarDadosFormulario(model);
+
+            // Retorna para a mesma página
+            return "/coordenador/listar-sessoes";
+        }
     }
 
     @GetMapping("/listar-sessoes")

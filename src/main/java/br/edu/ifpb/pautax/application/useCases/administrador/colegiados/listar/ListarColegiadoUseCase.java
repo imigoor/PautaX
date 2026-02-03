@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ifpb.pautax.domain.entities.Colegiado;
+import br.edu.ifpb.pautax.infrastructure.repositories.AlunoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ColegiadoRepository;
 import br.edu.ifpb.pautax.infrastructure.repositories.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class ListarColegiadoUseCase implements IListarColegiadoUseCase {
     private final ColegiadoRepository colegiadoRepository;
     private final ProfessorRepository professorRepository;
+    private final AlunoRepository alunoRepository;
 
     @Override
     public ModelAndView execute() {
@@ -21,6 +23,7 @@ public class ListarColegiadoUseCase implements IListarColegiadoUseCase {
         modelAndView.addObject("listaDeColegiados", colegiadoRepository.findAll());
         modelAndView.addObject("colegiado", new Colegiado());
         modelAndView.addObject("todosProfessores", professorRepository.findAll());
+        modelAndView.addObject("todosAlunos", alunoRepository.findAll());
 
         return modelAndView;
     }
