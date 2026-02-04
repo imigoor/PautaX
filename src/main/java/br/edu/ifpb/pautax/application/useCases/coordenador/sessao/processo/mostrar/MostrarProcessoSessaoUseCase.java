@@ -49,7 +49,8 @@ public class MostrarProcessoSessaoUseCase implements IMostrarProcessoSessaoUseCa
                 .stream()
                 .collect(Collectors.toMap(
                         v -> v.getProfessor().getId(),
-                        v -> v
+                        v -> v,
+                        (votoExistente, votoNovo) -> votoExistente // Se houver duplicata, mantém o primeiro
                 ));
 
         List<VotoProfessorDTO> votosDTO = sessao.getColegiado()
